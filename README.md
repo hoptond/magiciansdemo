@@ -1,7 +1,7 @@
 # magiciansdemo
 This is a sample of the source code for my game, Magicians.
 
-Magicians is a role playing game set in an academy of magic. The project was written in C# and utilizes the MonoGame framework. This project, started in 2014, was my first big project in C# (or indeed, any programming language!) and so the code you see may be a bit flaky.
+Magicians is a role playing game set in an academy of magic. The project was written in C# and utilizes the MonoGame framework. This project, started in 2014, was my first big project in C# (or indeed, any programming language!) and so the code you see may vary in quality and style.
 
 To see a few of the systems in action, please click here:
 https://www.youtube.com/watch?v=CuOT8PEbfqg
