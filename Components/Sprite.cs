@@ -52,6 +52,7 @@ namespace Magicians
             DrawnPosition = pos;
             CurrentFrame = 0;
             SpriteRect = new Rectangle(CurrentFrame * SpriteSize.X, 0, SpriteSize.X, SpriteSize.Y);
+			SpriteSize = spritesize;
             rotation = MathHelper.Pi * 0.0f;
             Depth = d;
             Interval = 190;
@@ -72,7 +73,7 @@ namespace Magicians
                     }
                 }
             }
-            if(SpriteSize == Point.Zero)
+			if(SpriteSize == Point.Zero && SpriteSheet != null)
                 SpriteSize = new Point(SpriteSheet.Width, SpriteSheet.Height);
             DrawnBounds = new Rectangle(DrawnPosition.X, DrawnPosition.Y, SpriteSize.X, SpriteSize.Y);
         }
@@ -257,7 +258,7 @@ namespace Magicians
 			if (SpriteSheet.Width % SpriteSize.X == 0)
                 CurrentFrame = random.Next(0, (SpriteSheet.Width / SpriteSize.X) - 1);
         }
-        public void SetbottomYOffset(int i)
+        public void SetBottomYOffset(int i)
         {
             bottomYOffset = i;
         }

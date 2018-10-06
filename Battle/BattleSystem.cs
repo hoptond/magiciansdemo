@@ -186,7 +186,7 @@ namespace Magicians
             {
                 var pc = p.GetPlayerCharacter(p.ActiveCharacters[i]);
                 playerCharacters[i] = pc;
-                Battlers.Add(new Battler(pc, pc.Name,pc.GraphicsFolderName,pc.BattleStats));
+                Battlers.Add(new Battler(pc, pc.Name, pc.GraphicsFolderName, pc.BattleStats));
                 Battlers[b].BattleStats.battler = Battlers[b];
                 Battlers[b].SetPosition(game, Positions[i]);
                 Battlers[b].SetTeam(Team.Player);        
@@ -1415,7 +1415,7 @@ namespace Magicians
                                         for (int i = 0; i < targets.Count; i++)
                                         {
                                             actionEffects.Add(new SpriteEffect(game.TextureLoader, targets[i].Sprite.DrawnPosition, turnAction.actionSpriteSizes[1],"Sprites\\BattleEffects\\" + turnAction.actionSpriteEffects[1], true));
-											actionEffects[actionEffects.Capacity].sprite.SetScale(turnAction.actionSpriteSizes[1].X, turnAction.actionSpriteSizes[1].Y);
+											actionEffects[actionEffects.Count - 1].sprite.SetScale(turnAction.actionSpriteSizes[1].X, turnAction.actionSpriteSizes[1].Y);
                                             actionEffects[actionEffects.Count - 1].sprite.SetInterval(turnAction.actionSpriteSpeeds[1], true);
                                         }
                                         break;
@@ -1425,7 +1425,7 @@ namespace Magicians
                                         for (int i = 0; i < targets.Count; i++)
                                         {
                                             actionEffects.Add(new SpriteEffect(game.TextureLoader, activeBattler.Sprite.DrawnPosition, turnAction.actionSpriteSizes[1], "Sprites\\BattleEffects\\" + turnAction.actionSpriteEffects[1], false));
-											actionEffects[actionEffects.Capacity].sprite.SetScale(turnAction.actionSpriteSizes[1].X, turnAction.actionSpriteSizes[1].Y); actionEffects[actionEffects.Capacity].sprite.SetScale(turnAction.actionSpriteSizes[1].X, turnAction.actionSpriteSizes[1].Y);
+											actionEffects[actionEffects.Count - 1].sprite.SetScale(turnAction.actionSpriteSizes[1].X, turnAction.actionSpriteSizes[1].Y);
                                             actionEffects[actionEffects.Count - 1].SetMovement(new Mover(null, 28, Mover.MovementType.Linear), targets[i].Sprite.DrawnPosition);
                                             actionEffects[actionEffects.Count - 1].sprite.ChangeRotation(GetRadians(activeBattler.Sprite.DrawnPosition, targets[i].Sprite.DrawnPosition));
                                         }
@@ -1474,7 +1474,7 @@ namespace Magicians
                                     {
                                         actionEffects.Add(new SpriteEffect(game.TextureLoader, targets[i].Sprite.DrawnPosition, turnAction.actionSpriteSizes[1], "Sprites\\BattleEffects\\" + turnAction.actionSpriteEffects[1], false));
                                         actionEffects[actionEffects.Count - 1].sprite.SetInterval(turnAction.actionSpriteSpeeds[1], true);
-										actionEffects[actionEffects.Capacity].sprite.SetScale(turnAction.actionSpriteSizes[1].X, turnAction.actionSpriteSizes[1].Y); actionEffects[actionEffects.Capacity].sprite.SetScale(turnAction.actionSpriteSizes[1].X, turnAction.actionSpriteSizes[1].Y);
+										actionEffects[actionEffects.Count - 1].sprite.SetScale(turnAction.actionSpriteSizes[1].X, turnAction.actionSpriteSizes[1].Y); actionEffects[actionEffects.Capacity].sprite.SetScale(turnAction.actionSpriteSizes[1].X, turnAction.actionSpriteSizes[1].Y);
                                         var targetVec = new Point((int)MathHelper.Distance(activeBattler.Sprite.DrawnPosition.X, targets[i].Sprite.DrawnPosition.X), (int)MathHelper.Distance(activeBattler.Sprite.DrawnPosition.Y, targets[i].Sprite.DrawnPosition.Y));
                                         if (activeBattler.Sprite.DrawnPosition.X > targets[i].Sprite.DrawnPosition.X)
                                             targetVec.X = -targetVec.X;
