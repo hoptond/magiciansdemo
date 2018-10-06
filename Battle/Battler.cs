@@ -331,10 +331,8 @@ namespace Magicians
         }
         public Battler(PlayerCharacter pc, string n, string gra, BattleStats bs)
         {
-            Name = n;
-
-            battlerGraphicsFolder = gra;
-
+            Name = n;         
+            battlerGraphicsFolder = gra;         
             BattleStats = bs;
             Sounds = new SortedList<BattlerAnimType, string>();
             Sounds.Add(BattlerAnimType.Recoil, "");
@@ -352,16 +350,13 @@ namespace Magicians
         }
         public Battler(string n, string gra, int hp, int sp, SortedList<DamageTypes,int> r, SortedList<Attributes,int> s)
         {
-            Name = n;
-
-            battlerGraphicsFolder = gra;
-
+            Name = n;         
+            battlerGraphicsFolder = gra;         
             BattleStats = new BattleStats(this);
             BattleStats.MaxHP = hp;
             BattleStats.MaxSP = sp;
             BattleStats.HP = BattleStats.MaxHP;
-            BattleStats.SP = BattleStats.MaxSP;
-
+            BattleStats.SP = BattleStats.MaxSP;         
             BattleStats.baseResistances = r;
             BattleStats.baseAttributes = s;
             foreach (KeyValuePair<Attributes, int> kvp in BattleStats.baseAttributes)
@@ -395,7 +390,8 @@ namespace Magicians
                 Animations[BattlerAnimType.CastSpell] = g.TextureLoader.RequestTexture("Sprites\\Battlers\\" + battlerGraphicsFolder + "\\PostCast");
             if (File.Exists(g.Content.RootDirectory + g.PathSeperator + "Sprites" + g.PathSeperator + "Battlers" + g.PathSeperator + battlerGraphicsFolder + g.PathSeperator + "PostAttack.xnb"))
                 Animations[BattlerAnimType.PostAttack] = g.TextureLoader.RequestTexture("Sprites\\Battlers\\" + battlerGraphicsFolder + "\\PostAttack");
-            if (battlerGraphicsFolder == "placeholder")
+			//TODO: replace these with properties loaded from the xml file
+			if (battlerGraphicsFolder == "placeholder")
             {
                 Sprite = new Sprite(g.TextureLoader, null, vec, 0.5f, new Vector2(Animations[BattlerAnimType.Idle].Width / 2, Animations[BattlerAnimType.Idle].Height).ToPoint(), Sprite.OriginType.FromCentre);
                 Sprite.SetInterval(280);
@@ -410,9 +406,8 @@ namespace Magicians
                 Sprite = new Sprite(g.TextureLoader, null, vec, 0.5f, new Vector2(Width, Height).ToPoint(), Sprite.OriginType.FromCentre);
                 Sprite.SetInterval(140);
             }
-            Sprite.ChangeTexture2D(Animations[BattlerAnimType.Idle]);
-
-            Bounds = new Bounds(null,new Point(Sprite.DrawnPosition.X - (Sprite.spriteSize.X / 2), Sprite.DrawnPosition.Y - (Sprite.spriteSize.Y / 2)), Sprite.spriteSize.X, Sprite.spriteSize.Y, true,new Point(0));
+            Sprite.ChangeTexture2D(Animations[BattlerAnimType.Idle]);         
+            Bounds = new Bounds(null, new Point(Sprite.DrawnPosition.X - (Sprite.SpriteSize.X / 2), Sprite.DrawnPosition.Y - (Sprite.SpriteSize.Y / 2)), Sprite.SpriteSize.X, Sprite.SpriteSize.Y, true, new Point(0));
             Sprite.ChangeLooping(true);
         }
 
@@ -420,7 +415,7 @@ namespace Magicians
         {           
             if (currentAnim != BattlerAnimType.Idle)
             {
-                if (Sprite.reachedEnd == true && currentAnim != BattlerAnimType.Die)
+                if (Sprite.ReachedEnd && currentAnim != BattlerAnimType.Die)
                 {
                     if (BattleStats.HP < BattleStats.MaxHP / 3)
                         ChangeAnimation(BattlerAnimType.Injured);

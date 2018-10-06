@@ -117,9 +117,7 @@ namespace Magicians
                 {
                     Rectangle rectangle = entities[i].Sprite.DrawnBounds;
                     if(entities[i].Sprite.OriginMode == Sprite.OriginType.BottomMiddle)
-                    {
-                        rectangle = new Rectangle(rectangle.X - (entities[i].Sprite.spriteSize.X / 2), rectangle.Y - entities[i].Sprite.spriteSize.Y, rectangle.Width, rectangle.Height);
-                    }
+                        rectangle = new Rectangle(rectangle.X - (entities[i].Sprite.SpriteSize.X / 2), rectangle.Y - entities[i].Sprite.SpriteSize.Y, rectangle.Width, rectangle.Height);
                     if (game.Input.HasMouseClickedOnRectangle(rectangle, true, false))
                     {
                         if (entities[i].HasSpellCastEvents)

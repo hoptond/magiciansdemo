@@ -9,7 +9,7 @@ using System.IO;
 
 namespace Magicians
 {
-    public enum WalkerState { None, Standing, Walking, Running, Talking, Custom }
+	public enum WalkerState { None, Standing, Walking, Running, Talking, Custom }
     class Entity
     {
         public int ID { get; protected set; }
@@ -25,18 +25,12 @@ namespace Magicians
         public bool HasSpellCastEvents { get; set; }
         public bool HasPartyCollideEvents { get; private set; }
         public bool HasSpecialEvents { get; private set; }
-		public bool StaticBattler;
-
-
+        public bool StaticBattler;      
         public Entity(int id, string name, Point pos)
         {
             ID = id;
             Name = name;
             Position = pos;
-        }
-        public Entity()
-        {
-
         }
         public void ChangePosition(Point point)
         {
@@ -85,8 +79,8 @@ namespace Magicians
             }
             if (key.StartsWith("INTERACT-"))
                 HasEntityCollideEvents = true;
-            if(!Events.ContainsKey(key))
-            Events.Add(key, events);
+            if (!Events.ContainsKey(key))
+                Events.Add(key, events);
         }
         public List<IEvent> ReturnEvents(string key)
         {
@@ -126,20 +120,18 @@ namespace Magicians
         public int baseWalkerInterval { get; set; }
 
         public Walker(int id, string name, Point pos, Map m, int bWI)
+			: base(id, name, pos)
         {
-            ID = id;
-            Name = name;
-            Position = pos;
             map = m;
             baseWalkerInterval = bWI;
-			SetMover(0);
+            SetMover(0);
         }
-        
+
         public override void Update(GameTime gameTime)
         {
             if (playingCustomAnim)
             {
-                if (Sprite.reachedEnd)
+                if (Sprite.ReachedEnd)
                 {
                     playingCustomAnim = false;
                     ChangeWalkerSpriteTexture();
@@ -196,7 +188,7 @@ namespace Magicians
             if (Behaviour is Patrol)
             {
                 var behav = (Patrol)Behaviour;
-                if(behav.canSee)
+                if (behav.canSee)
                 {
                     switch (Mover.direction)
                     {
@@ -220,16 +212,16 @@ namespace Magicians
             WalkingSprites.Clear();
             TalkingSprites.Clear();
             RunningSprites.Clear();
-			char seperator = Path.DirectorySeparatorChar;
-			string directory =  Content.RootDirectory + seperator + "Sprites" + seperator + "World" + seperator + "Entity" + seperator + "Walker" + seperator + s;
-            Sprite.graphicsDir = "\\Sprites\\World\\Entity\\Walker\\" + s;
+            char seperator = Path.DirectorySeparatorChar;
+            string directory = Content.RootDirectory + seperator + "Sprites" + seperator + "World" + seperator + "Entity" + seperator + "Walker" + seperator + s;
+			Sprite.SetGraphicsDir("\\Sprites\\World\\Entity\\Walker\\" + s);
             walkerState = WalkerState.Standing;
             if (!Directory.Exists(directory))
             {
                 s = "Template";
-				directory = Content.RootDirectory +  seperator + "Sprites" + seperator + "World" + seperator + "Entity" + seperator + "Walker" + seperator + s;
+                directory = Content.RootDirectory + seperator + "Sprites" + seperator + "World" + seperator + "Entity" + seperator + "Walker" + seperator + s;
             }
-			if (Directory.Exists(directory + seperator + "Standing"))
+            if (Directory.Exists(directory + seperator + "Standing"))
             {
                 StandingSprites.Add(Directions.Up, TextureLoader.RequestTexture("Sprites\\World\\Entity\\Walker\\" + s + "\\Standing\\up"));
                 StandingSprites.Add(Directions.UpRight, TextureLoader.RequestTexture("Sprites\\World\\Entity\\Walker\\" + s + "\\Standing\\upright"));
@@ -240,7 +232,7 @@ namespace Magicians
                 StandingSprites.Add(Directions.Left, TextureLoader.RequestTexture("Sprites\\World\\Entity\\Walker\\" + s + "\\Standing\\left"));
                 StandingSprites.Add(Directions.UpLeft, TextureLoader.RequestTexture("Sprites\\World\\Entity\\Walker\\" + s + "\\Standing\\upleft"));
             }
-			if (Directory.Exists(directory + seperator + "Walking"))
+            if (Directory.Exists(directory + seperator + "Walking"))
             {
                 WalkingSprites.Add(Directions.Up, TextureLoader.RequestTexture("Sprites\\World\\Entity\\Walker\\" + s + "\\Walking\\up"));
                 WalkingSprites.Add(Directions.UpRight, TextureLoader.RequestTexture("Sprites\\World\\Entity\\Walker\\" + s + "\\Walking\\upright"));
@@ -251,7 +243,7 @@ namespace Magicians
                 WalkingSprites.Add(Directions.Left, TextureLoader.RequestTexture("Sprites\\World\\Entity\\Walker\\" + s + "\\Walking\\left"));
                 WalkingSprites.Add(Directions.UpLeft, TextureLoader.RequestTexture("Sprites\\World\\Entity\\Walker\\" + s + "\\Walking\\upleft"));
             }
-			if (Directory.Exists(directory + seperator + "Running"))
+            if (Directory.Exists(directory + seperator + "Running"))
             {
                 RunningSprites.Add(Directions.Up, TextureLoader.RequestTexture("Sprites\\World\\Entity\\Walker\\" + s + "\\Running\\up"));
                 RunningSprites.Add(Directions.UpRight, TextureLoader.RequestTexture("Sprites\\World\\Entity\\Walker\\" + s + "\\Running\\upright"));
@@ -262,7 +254,7 @@ namespace Magicians
                 RunningSprites.Add(Directions.Left, TextureLoader.RequestTexture("Sprites\\World\\Entity\\Walker\\" + s + "\\Running\\left"));
                 RunningSprites.Add(Directions.UpLeft, TextureLoader.RequestTexture("Sprites\\World\\Entity\\Walker\\" + s + "\\Running\\upleft"));
             }
-			if (Directory.Exists(directory + seperator + "Talking"))
+            if (Directory.Exists(directory + seperator + "Talking"))
             {
                 TalkingSprites.Add(Directions.Up, TextureLoader.RequestTexture("Sprites\\World\\Entity\\Walker\\" + s + "\\Talking\\up"));
                 TalkingSprites.Add(Directions.UpRight, TextureLoader.RequestTexture("Sprites\\World\\Entity\\Walker\\" + s + "\\Talking\\upright"));
@@ -292,9 +284,9 @@ namespace Magicians
             if (Mover.Waypoints.Count == 0)
             {
                 var list = new List<Point>();
-				if (Behaviour != null)
+                if (Behaviour != null)
                     list = Behaviour.GetMovement(map);
-                if (list == null) 
+                if (list == null)
                     return;
                 if (list.Count == 0)
                     return;
@@ -305,12 +297,12 @@ namespace Magicians
                 }
             }
             else
-            {            
+            {
                 if (Mover.Target == Point.Zero)
                     Mover.SetTarget(Mover.Waypoints[0]);
             }
             if (Mover.Target == Point.Zero)
-                return;        
+                return;
             var HorzDistance = (int)MathHelper.Distance(Position.X, Mover.Target.X);
             var VertDistance = (int)MathHelper.Distance(Position.Y, Mover.Target.Y);
             Mover.ChangeMovement(Directions.None);
@@ -361,10 +353,10 @@ namespace Magicians
                 case (WalkerState.Standing):
                     {
                         Sprite.SetInterval(baseWalkerInterval);
-                        if (Sprite.spriteSheet != null)
+                        if (Sprite.SpriteSheet != null)
                         {
-                            if (Sprite.spriteSheet.Width < (Sprite.currentFrame * Sprite.spriteSize.X))
-                                Sprite.currentFrame = 0;
+                            if (Sprite.SpriteSheet.Width < (Sprite.CurrentFrame * Sprite.SpriteSize.X))
+                                Sprite.CurrentFrame = 0;
                         }
                         if (StandingSprites.Count != 0 && Mover.direction != Directions.None)
                         {

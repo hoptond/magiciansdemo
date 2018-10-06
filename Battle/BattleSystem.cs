@@ -117,13 +117,13 @@ namespace Magicians
             {
                 if (Battlers[i].Sprite != null)
                 {
-                    if (Battlers[i].Sprite.ignoreDepthSorting == false)
+                    if (Battlers[i].Sprite.IgnoreDepthSorting == false)
                     {
                         sprites.Add(Battlers[i].Sprite);
                     }
                 }
             }
-            sprites.Sort((y, z) => y.bottomY.CompareTo(z.bottomY));
+            sprites.Sort((y, z) => y.BottomY.CompareTo(z.BottomY));
             float depth = furthestDepth;
             foreach(Sprite sprite in sprites)
             {
@@ -323,7 +323,7 @@ namespace Magicians
             if(activeBattler != null)
             {
                 battlerArrow.Update(gameTime);
-                battlerArrow.ChangeDrawnPosition(new Point(activeBattler.Sprite.DrawnPosition.X, activeBattler.Sprite.DrawnPosition.Y - (activeBattler.Sprite.spriteSize.Y / 2) - 58));
+                battlerArrow.ChangeDrawnPosition(new Point(activeBattler.Sprite.DrawnPosition.X, activeBattler.Sprite.DrawnPosition.Y - (activeBattler.Sprite.SpriteSize.Y / 2) - 58));
             }
             if (!game.settings.mutedMusic)
             {
@@ -382,7 +382,7 @@ namespace Magicians
                 case (State.PreAnimating):
                     {
                         battleText = turnAction.IntText;
-                        if (activeBattler.Sprite.reachedEnd)
+                        if (activeBattler.Sprite.ReachedEnd)
                         {
                             this.currentState = State.Animating;
                             AddActionVisualEffectsToList();
@@ -846,14 +846,14 @@ namespace Magicians
                     battler.Draw(spriteBatch, Color.White);
                 if (battler.useBossHealthBar && battler.BattleStats.canTarget)
                 {
-                    var point = new Point(battler.Sprite.DrawnPosition.X - 106, battler.Sprite.DrawnPosition.Y + (battler.Sprite.spriteSize.Y / 2) + 8);
+                    var point = new Point(battler.Sprite.DrawnPosition.X - 106, battler.Sprite.DrawnPosition.Y + (battler.Sprite.SpriteSize.Y / 2) + 8);
                     spriteBatch.Draw(BossStatsBar, new Rectangle(point.X, point.Y, 212, 8), null, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, 0.4f);
                     spriteBatch.Draw(HealthBar, new Rectangle(point.X + 3, point.Y + 3, (int)(((float)battler.BattleStats.HP / (float)battler.BattleStats.MaxHP) * 206), 3), null, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, 0.399f);
 
                 }
                 if (!battler.useBossHealthBar && (battler.BattleStats.canTarget || !battler.BattleStats.canTarget && battler.BattleStats.team == Team.Player))
                 {
-                    var point = new Point(battler.Sprite.DrawnPosition.X - 56, battler.Sprite.DrawnPosition.Y + (battler.Sprite.spriteSize.Y / 2) + 8);
+                    var point = new Point(battler.Sprite.DrawnPosition.X - 56, battler.Sprite.DrawnPosition.Y + (battler.Sprite.SpriteSize.Y / 2) + 8);
                     spriteBatch.Draw(RegularStatsBar, new Rectangle(point.X, point.Y, 112, 10), null, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, 0.4f);
                     spriteBatch.Draw(HealthBar, new Rectangle(point.X + 3, point.Y + 3, (int)(((float)battler.BattleStats.HP / (float)battler.BattleStats.MaxHP) * 106), 2), null, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, 0.39f);
                     spriteBatch.Draw(ManaBar, new Rectangle(point.X + 3, point.Y + 6, (int)(((float)battler.BattleStats.SP / (float)battler.BattleStats.MaxSP) * 106), 1), null, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, 0.39f);
@@ -939,7 +939,7 @@ namespace Magicians
 
                                 spriteBatch.Draw(background, new Rectangle(baseOffset.X + 48, baseOffset.Y + 80, 135, 186), new Rectangle(300, 300, 135, 186), Color.DarkGray, 0, Vector2.Zero, SpriteEffects.None, 0.12f);
                                 var rect = new Rectangle(baseOffset.X + 114, baseOffset.Y + 173, MathHelper.Clamp(examinedBattler.Sprite.DrawnBounds.Width, 0, 135), MathHelper.Clamp(examinedBattler.Sprite.DrawnBounds.Height, 0, 186));
-                                spriteBatch.Draw(examinedBattler.Sprite.spriteSheet, rect, examinedBattler.Sprite.spriteRect, Color.White, 0, new Vector2(examinedBattler.Sprite.spriteSize.X / 2, examinedBattler.Sprite.spriteSize.Y / 2), SpriteEffects.None, 0.11f);
+								spriteBatch.Draw(examinedBattler.Sprite.SpriteSheet, rect, examinedBattler.Sprite.SpriteRect, Color.White, 0, new Vector2(examinedBattler.Sprite.SpriteSize.X / 2, examinedBattler.Sprite.SpriteSize.Y / 2), SpriteEffects.None, 0.11f);
                                 //draw modifier icons
                                 var drawVector = new Vector2(baseOffset.X + 48, baseOffset.Y + 311);
                                 var start = 0;
@@ -1415,10 +1415,8 @@ namespace Magicians
                                         for (int i = 0; i < targets.Count; i++)
                                         {
                                             actionEffects.Add(new SpriteEffect(game.TextureLoader, targets[i].Sprite.DrawnPosition, turnAction.actionSpriteSizes[1],"Sprites\\BattleEffects\\" + turnAction.actionSpriteEffects[1], true));
-                                            actionEffects[actionEffects.Count - 1].sprite.scaled = true;
+											actionEffects[actionEffects.Capacity].sprite.SetScale(turnAction.actionSpriteSizes[1].X, turnAction.actionSpriteSizes[1].Y);
                                             actionEffects[actionEffects.Count - 1].sprite.SetInterval(turnAction.actionSpriteSpeeds[1], true);
-                                            actionEffects[actionEffects.Count - 1].sprite.scaleWidth = turnAction.actionSpriteSizes[1].X;
-                                            actionEffects[actionEffects.Count - 1].sprite.scaleHeight = turnAction.actionSpriteSizes[1].Y;
                                         }
                                         break;
                                     }
@@ -1427,10 +1425,7 @@ namespace Magicians
                                         for (int i = 0; i < targets.Count; i++)
                                         {
                                             actionEffects.Add(new SpriteEffect(game.TextureLoader, activeBattler.Sprite.DrawnPosition, turnAction.actionSpriteSizes[1], "Sprites\\BattleEffects\\" + turnAction.actionSpriteEffects[1], false));
-                                            actionEffects[actionEffects.Count - 1].sprite.scaled = true;
-                                            actionEffects[actionEffects.Count - 1].sprite.SetInterval(turnAction.actionSpriteSpeeds[1], true);
-                                            actionEffects[actionEffects.Count - 1].sprite.scaleWidth = turnAction.actionSpriteSizes[1].X;
-                                            actionEffects[actionEffects.Count - 1].sprite.scaleHeight = turnAction.actionSpriteSizes[1].Y;
+											actionEffects[actionEffects.Capacity].sprite.SetScale(turnAction.actionSpriteSizes[1].X, turnAction.actionSpriteSizes[1].Y); actionEffects[actionEffects.Capacity].sprite.SetScale(turnAction.actionSpriteSizes[1].X, turnAction.actionSpriteSizes[1].Y);
                                             actionEffects[actionEffects.Count - 1].SetMovement(new Mover(null, 28, Mover.MovementType.Linear), targets[i].Sprite.DrawnPosition);
                                             actionEffects[actionEffects.Count - 1].sprite.ChangeRotation(GetRadians(activeBattler.Sprite.DrawnPosition, targets[i].Sprite.DrawnPosition));
                                         }
@@ -1478,10 +1473,8 @@ namespace Magicians
                                     if(turnAction.fxType == ActionFXType.Projectile)
                                     {
                                         actionEffects.Add(new SpriteEffect(game.TextureLoader, targets[i].Sprite.DrawnPosition, turnAction.actionSpriteSizes[1], "Sprites\\BattleEffects\\" + turnAction.actionSpriteEffects[1], false));
-                                        actionEffects[actionEffects.Count - 1].sprite.scaled = true;
                                         actionEffects[actionEffects.Count - 1].sprite.SetInterval(turnAction.actionSpriteSpeeds[1], true);
-                                        actionEffects[actionEffects.Count - 1].sprite.scaleWidth = turnAction.actionSpriteSizes[1].X;
-                                        actionEffects[actionEffects.Count - 1].sprite.scaleHeight = turnAction.actionSpriteSizes[1].Y;
+										actionEffects[actionEffects.Capacity].sprite.SetScale(turnAction.actionSpriteSizes[1].X, turnAction.actionSpriteSizes[1].Y); actionEffects[actionEffects.Capacity].sprite.SetScale(turnAction.actionSpriteSizes[1].X, turnAction.actionSpriteSizes[1].Y);
                                         var targetVec = new Point((int)MathHelper.Distance(activeBattler.Sprite.DrawnPosition.X, targets[i].Sprite.DrawnPosition.X), (int)MathHelper.Distance(activeBattler.Sprite.DrawnPosition.Y, targets[i].Sprite.DrawnPosition.Y));
                                         if (activeBattler.Sprite.DrawnPosition.X > targets[i].Sprite.DrawnPosition.X)
                                             targetVec.X = -targetVec.X;

@@ -269,5 +269,9 @@ namespace Magicians
 		{
 			IgnoreDepthSorting = ignore;
 		}
+        public void SetGraphicsDir(string dir) 
+		{
+			GraphicsDir = dir;
+		}
     }
 }
