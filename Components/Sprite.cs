@@ -164,10 +164,12 @@ namespace Magicians
 					}
 			}
 		}
+
 		public void ResetTimer()
 		{
 			timer = 0;
 		}
+
 		public void Draw(SpriteBatch batch, Color color)
 		{
 			SpriteRect = new Rectangle(CurrentFrame * SpriteSize.X, 0, SpriteSize.X, SpriteSize.Y);

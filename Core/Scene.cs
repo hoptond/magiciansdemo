@@ -5,10 +5,10 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Magicians
 {
-    interface IScene
-    {
-        void Update(GameTime gameTime);
-        void Draw(SpriteBatch spriteBatch);
-        void Load(ContentManager ContentManager, TextureLoader TextureLoader);
-    }
+	interface IScene
+	{
+		void Update(GameTime gameTime);
+		void Draw(SpriteBatch spriteBatch);
+		void Load(ContentManager ContentManager, TextureLoader TextureLoader);
+	}
 }

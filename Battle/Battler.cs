@@ -393,17 +393,17 @@ namespace Magicians
 			//TODO: replace these with properties loaded from the xml file
 			if (battlerGraphicsFolder == "placeholder")
             {
-                Sprite = new Sprite(g.TextureLoader, null, vec, 0.5f, new Vector2(Animations[BattlerAnimType.Idle].Width / 2, Animations[BattlerAnimType.Idle].Height).ToPoint(), Sprite.OriginType.FromCentre);
+				Sprite = new Sprite(g.TextureLoader, null, vec, 0.5f, new Point(Animations[BattlerAnimType.Idle].Width / 2, Animations[BattlerAnimType.Idle].Height), Sprite.OriginType.FromCentre);
                 Sprite.SetInterval(280);
             }
             else if(Width == -1)
             {
-                Sprite = new Sprite(g.TextureLoader, null, vec, 0.5f, new Vector2(Animations[BattlerAnimType.Idle].Width / 4, Animations[BattlerAnimType.Idle].Height).ToPoint(), Sprite.OriginType.FromCentre);
+				Sprite = new Sprite(g.TextureLoader, null, vec, 0.5f, new Point(Animations[BattlerAnimType.Idle].Width / 4, Animations[BattlerAnimType.Idle].Height), Sprite.OriginType.FromCentre);
                 Sprite.SetInterval(140);
             }
             else
             {
-                Sprite = new Sprite(g.TextureLoader, null, vec, 0.5f, new Vector2(Width, Height).ToPoint(), Sprite.OriginType.FromCentre);
+				Sprite = new Sprite(g.TextureLoader, null, vec, 0.5f, new Point(Width, Height), Sprite.OriginType.FromCentre);
                 Sprite.SetInterval(140);
             }
             Sprite.ChangeTexture2D(Animations[BattlerAnimType.Idle]);         

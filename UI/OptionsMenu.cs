@@ -353,10 +353,10 @@ namespace Magicians
 					break;
 				}
 			}
-			//TODO: make this into one for loop
 			int vert = 256;
 			for (int i = 0; i < 4; i++)
-			{            
+			{
+
 				buttonRecs[i] = new Rectangle(TopLeft.X + 134, TopLeft.Y + vert, 80, 32);
 				vert += 41;
 			}
@@ -372,6 +372,81 @@ namespace Magicians
 				buttonRecs[i] = new Rectangle(TopLeft.X + 481, TopLeft.Y + vert, 80, 32);
 				vert += 41;
 			}
+		}
+	}
+	[Serializable]
+	struct OptionsSettings : ICloneable
+	{
+		public int horzRez;
+		public int vertRez;
+		public TextSpeed textSpeed;
+		public bool fullScreen;
+
+
+		public float musVolume;
+		public bool mutedMusic;
+		public bool mutedSound;
+		public float soundVolume;
+
+
+		public Keys mapKey;
+		public Keys statusKey;
+		public Keys inventoryKey;
+		public Keys pauseKey;
+		public Keys spellKey;
+
+		public Keys upKey;
+		public Keys downKey;
+		public Keys leftKey;
+		public Keys rightKey;
+
+		public Keys runKey;
+		public Keys interactKey;
+		public Keys sneakKey;
+
+		public byte combatSpeed;
+
+		public object Clone()
+		{
+			var newSettings = new OptionsSettings();
+
+			newSettings.horzRez = this.horzRez;
+			newSettings.vertRez = this.vertRez;
+			newSettings.textSpeed = this.textSpeed;
+			newSettings.musVolume = this.musVolume;
+			newSettings.soundVolume = this.soundVolume;
+			newSettings.fullScreen = this.fullScreen;
+
+			newSettings.mapKey = this.mapKey;
+			newSettings.statusKey = this.statusKey;
+			newSettings.inventoryKey = this.inventoryKey;
+			newSettings.spellKey = this.spellKey;
+			newSettings.upKey = this.upKey;
+			newSettings.downKey = this.downKey;
+			newSettings.leftKey = this.leftKey;
+			newSettings.rightKey = this.rightKey;
+			newSettings.pauseKey = this.pauseKey;
+			newSettings.sneakKey = this.sneakKey;
+			newSettings.interactKey = this.interactKey;
+			newSettings.runKey = this.runKey;
+
+			newSettings.mutedMusic = this.mutedMusic;
+			newSettings.mutedSound = this.mutedSound;
+
+			newSettings.combatSpeed = this.combatSpeed;
+
+			return newSettings;
+		}
+		public bool IsKeyInUse(Keys k)
+		{
+			//todo: condense these into an array
+			if (k == upKey || k == leftKey || k == downKey || k == rightKey)
+				return true;
+			if (k == runKey || k == interactKey || k == pauseKey)
+				return true;
+			if (k == mapKey || k == statusKey || k == inventoryKey || k == sneakKey)
+				return true;
+			return false;
 		}
 	}
 }

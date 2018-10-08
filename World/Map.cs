@@ -338,6 +338,8 @@ namespace Magicians
 					}
 				}
 				EventManager.Update(gameTime);
+				//interactBox = Rectangle.Empty;
+				//interactHighlight.ChangeDrawnPosition(new Vector2(-999, -999));
 				if (walkSoundRecs != null)
 				{
 					int volume = 75;
@@ -393,7 +395,7 @@ namespace Magicians
 							if (Entities[i].Sprite != null)
 							{
 								if (Entities[i] is Walker)
-									interactHighlight.ChangeDrawnPosition(new Point(Entities[i].Position.X, Entities[i].Position.Y - (Entities[i].Sprite.spriteSize.Y / 2)));
+									interactHighlight.ChangeDrawnPosition(new Point(Entities[i].Position.X, Entities[i].Position.Y - (Entities[i].Sprite.SpriteSize.Y / 2)));
 								else
 									interactHighlight.ChangeDrawnPosition(new Point(Entities[i].Sprite.DrawnBounds.Center.X, Entities[i].Sprite.DrawnBounds.Center.Y));
 							}
@@ -420,6 +422,7 @@ namespace Magicians
 				for (int i = 0; i < Bounds.Count; i++)
 				{
 					var edge = Bounds[i].End.ToVector2() - Bounds[i].Start.ToVector2();
+					// calculate angle to rotate line
 					var angle = (float)Math.Atan2(edge.Y, edge.X);
 					spriteBatch.Draw(game.debugSquare, new Rectangle(Bounds[i].Start, new Point(Bounds[i].Length(), 1)), null, Color.Green, angle, Vector2.Zero, SpriteEffects.None, 0f);
 				}
@@ -710,7 +713,7 @@ namespace Magicians
 				return points;
 			}
 			//if the start node is set to nonpassable, we move it to the nearest passable node
-			//TODO: THIS SOMETIMES PRODUCES NO RESULTS NODES WHEN THERE ARE NODES, OR A WRONG NODE, THUS RESULTING IN GETTING STUCK ON THINGS AND JERKY BEHAVIOUR
+			//TODO: THIS SOMETIMES PRODUCES NO RESULTS NODES WHEN THERE ARE NODES, OR A WRONG NODE, THUS RESULTING IN GETTING STUCK ON THINGS AND SPAZZING OUT.
 			//THE SAME IS TRUE OF THE END NODE CHECK
 			if (!PathFinder.IsWalkable(search, nodes[Start.X, Start.Y]))
 			{
@@ -760,8 +763,10 @@ namespace Magicians
 				points.Add(target);
 				return points;
 			}
+			//temp.RemoveAt(0);
 			for (int i = 0; i < temp.Count; i++)
 			{
+				//temp[i] = new Point(upperLeft.X + (, upperLeft.Y + (temp[i].Y * NodeGap));
 				if (Vector2.Distance(temp[i].RealLocation.ToVector2(), target.ToVector2()) < NodeGap)
 				{
 					temp.RemoveAt(i);
@@ -804,9 +809,20 @@ namespace Magicians
 				}
 				catch
 				{
-					//TODO: put something here
-				}            
+
+				}
+
 			}
+			//for (int i = 0; i < points.Count - 1; i++)
+			//{
+			//    if (CanTravelOverTwoPoints(ent, points[i], points[i + 1]))
+			//    {
+			//        checkPointIndex = i;
+			//        points.RemoveAt(i);
+			//    }
+			//    else
+			//        checkPointIndex = i;
+			//}
 			if (!CanTravelOverTwoPoints(ent, start, points[0]))
 			{
 				var b = points[0];
@@ -941,8 +957,8 @@ namespace Magicians
 			{
 				if (target.Sprite != null)
 				{
-					t.X += target.Sprite.spriteSize.X / 2;
-					t.Y += target.Sprite.spriteSize.Y;
+					t.X += target.Sprite.SpriteSize.X / 2;
+					t.Y += target.Sprite.SpriteSize.Y;
 				}
 			}
 			var f = new Point(face.Position.X, face.Position.Y);
@@ -953,8 +969,8 @@ namespace Magicians
 		{
 			var t = new Point(Waypoints[target].X, Waypoints[target].Y);
 			var f = new Point(face.Position.X, face.Position.Y);
-			f.X += face.Sprite.spriteSize.X / 2;
-			f.Y += face.Sprite.spriteSize.Y;
+			f.X += face.Sprite.SpriteSize.X / 2;
+			f.Y += face.Sprite.SpriteSize.Y;
 			var radians = (float)Math.Atan2(t.X - f.X, t.Y - f.Y);
 			return GetDirectionFromRadians(radians);
 		}
@@ -984,8 +1000,8 @@ namespace Magicians
 				return;
 			var t = Waypoints[targ];
 			var f = new Point(face.Position.X, face.Position.Y);
-			f.X += face.Sprite.spriteSize.X / 2;
-			f.Y += face.Sprite.spriteSize.Y;
+			f.X += face.Sprite.SpriteSize.X / 2;
+			f.Y += face.Sprite.SpriteSize.Y;
 			var radians = (float)Math.Atan2(t.X - f.X, t.Y - f.Y);
 			face.Mover.ChangeDirection(GetDirectionFromRadians(radians));
 		}
@@ -1024,12 +1040,12 @@ namespace Magicians
 			}
 			return null;
 		}
-		void setSpriteProperties(int entNumber, SortedList<string,string> Properties)
+		void setSpriteProperties(int entNumber, SortedList<string, string> Properties)
 		{
-			if(Properties.Keys.Contains("SpriteSize"))
+			if (Properties.Keys.Contains("SpriteSize"))
 			{
 				var args = Properties["SpriteSize"].Split(',');
-                Entities[entNumber].Sprite.SetSpriteSize(int.Parse(args[0]), int.Parse(args[1]));
+				Entities[entNumber].Sprite.SetSpriteSize(int.Parse(args[0]), int.Parse(args[1]));
 			}
 			if (Properties.Keys.Contains("Animated"))
 			{
@@ -1037,48 +1053,55 @@ namespace Magicians
 				Entities[entNumber].Sprite.SetSpriteSize(int.Parse(args[0]), int.Parse(args[1]));
 				Entities[entNumber].Sprite.SetInterval(float.Parse(args[2]));
 				if (!Properties.Keys.Contains("StartAtFrameZero"))
-                    Entities[entNumber].Sprite.RandomizeFrame(game.randomNumber);
-			}         
-            if (Properties.Keys.Contains("Mirrored"))
-                Entities[entNumber].Sprite.ChangeSpriteEffects(SpriteEffects.FlipHorizontally);
-            if (Properties.Keys.Contains("Inverted"))
-                Entities[entNumber].Sprite.ChangeSpriteEffects(SpriteEffects.FlipVertically);
-            if (Properties.Keys.Contains("Scaled"))
-            {
-                int spriteWidth, spriteHeight;
-                var args = Properties["Scaled"].Split(',');
-                spriteWidth = int.Parse(args[0]);
-                spriteHeight = int.Parse(args[1]);
-                Entities[entNumber].Sprite.SetScale(spriteWidth, spriteHeight);
-            }
-            if (Properties.Keys.Contains("Depth"))
-            {
-                Entities[entNumber].Sprite.ignoreDepthSorting = true;
-                Entities[entNumber].Sprite.ChangeDepth(float.Parse(Properties["Depth"]));
-            }
-            if (Properties.Keys.Contains("BottomYOffset"))
-            {
-                try { Entities[entNumber].Sprite.SetBottomYOffset(int.Parse(Properties["BottomYOffset"])); Entities[entNumber].Sprite.ignoreDepthSorting = false; }
-                catch { Console.WriteLine("PANIC: TRIED TO SET THE BOTTOMY FOR ENTITY " + Entities[entNumber].Name + ", BUT THE ENTITY HAD NO SPRITE OR THERE WAS AN ERROR IN PARSING THE ARGUMENT"); }
-            }
-            if (Properties.Keys.Contains("Flicker"))
-            {
-                var sprite = Entities[entNumber].Sprite;
-                if (sprite != null)
-                {
-                    try
-                    {
-                        var args = Properties["Flicker"].Split(',');
-                        sprite.SetFlicker(int.Parse(args[0]), int.Parse(args[1]));
-                    }
-                    catch
-                    {
-                        Console.WriteLine("PANIC: ENTITY " + Entities[entNumber].Name + "WAS SET TO FLICKER, BUT THERE WAS AN ERROR PARSING THE ARGUMENTS");
-                    }
-                }
-                else
-                    Console.WriteLine("PANIC: ENTITY " + Entities[entNumber].Name + "WAS SET TO FLICKER, BUT IT HAD NO SPRITE");
-            }
+					Entities[entNumber].Sprite.RandomizeFrame(game.randomNumber);
+			}
+			if (Properties.Keys.Contains("Mirrored"))
+				Entities[entNumber].Sprite.ChangeSpriteEffects(SpriteEffects.FlipHorizontally);
+			if (Properties.Keys.Contains("Inverted"))
+				Entities[entNumber].Sprite.ChangeSpriteEffects(SpriteEffects.FlipVertically);
+			if (Properties.Keys.Contains("Scaled"))
+			{
+				int spriteWidth, spriteHeight;
+				var args = Properties["Scaled"].Split(',');
+				spriteWidth = int.Parse(args[0]);
+				spriteHeight = int.Parse(args[1]);
+				Entities[entNumber].Sprite.SetScale(spriteWidth, spriteHeight);
+			}
+			if (Properties.Keys.Contains("Depth"))
+			{
+				Entities[entNumber].Sprite.SetIgnoreDepthSorting(true);
+				Entities[entNumber].Sprite.ChangeDepth(float.Parse(Properties["Depth"]));
+			}
+			if (Properties.Keys.Contains("BottomYOffset"))
+			{
+				try
+				{
+					Entities[entNumber].Sprite.SetBottomYOffset(int.Parse(Properties["BottomYOffset"]));
+					Entities[entNumber].Sprite.SetIgnoreDepthSorting(false);
+				}
+				catch
+				{
+					Console.WriteLine("PANIC: TRIED TO SET THE BOTTOMY FOR ENTITY " + Entities[entNumber].Name + ", BUT THE ENTITY HAD NO SPRITE OR THERE WAS AN ERROR IN PARSING THE ARGUMENT");
+				}
+			}
+			if (Properties.Keys.Contains("Flicker"))
+			{
+				var sprite = Entities[entNumber].Sprite;
+				if (sprite != null)
+				{
+					try
+					{
+						var args = Properties["Flicker"].Split(',');
+						sprite.SetFlicker(int.Parse(args[0]), int.Parse(args[1]));
+					}
+					catch
+					{
+						Console.WriteLine("PANIC: ENTITY " + Entities[entNumber].Name + "WAS SET TO FLICKER, BUT THERE WAS AN ERROR PARSING THE ARGUMENTS");
+					}
+				}
+				else
+					Console.WriteLine("PANIC: ENTITY " + Entities[entNumber].Name + "WAS SET TO FLICKER, BUT IT HAD NO SPRITE");
+			}
 		}
 		public void SpawnEntity(string ID, bool overrideSpawn)
 		{
@@ -1099,7 +1122,9 @@ namespace Magicians
 			{
 				//prevents the spawning of duplicate enemies
 				if (Entities[i].Name == obj.Attribute("name").Value)
+				{
 					return;
+				}
 			}
 			if (obj.Element("properties") == null)
 			{
@@ -1162,7 +1187,7 @@ namespace Magicians
 					return;
 			}
 			if (!Properties.Keys.Contains("SpawnFlag") && !Properties.Keys.Contains("KillFlag"))
-				spawn = true;         
+				spawn = true;
 			if (spawn)
 			{
 				if (Properties.Keys.Contains("SpriteFolder") || Properties.Keys.Contains("Mover"))
@@ -1173,42 +1198,44 @@ namespace Magicians
 			else
 				return;
 			int entNumber = Entities.Count - 1;
-			foreach(KeyValuePair<string,string> prop in Properties)
+			//TODO: replace this with a giant switch statement
+			//TODO: DO THIS BEFORE CODE SOURCE
+			foreach (KeyValuePair<string, string> prop in Properties)
 			{
-				switch(prop.Key) 
+				switch (prop.Key)
 				{
-					case "StaticBattler" :
+					case "StaticBattler":
 						{
 							Entities[entNumber].StaticBattler = true;
 							break;
 						}
 					case "Sprite":
-                        {
+						{
 							Entities[entNumber].SetSprite(game.TextureLoader, "Sprites\\" + Properties["Sprite"], new Point(0), Sprite.OriginType.TopLeft);
 							setSpriteProperties(entNumber, Properties);
-                            break;
-                        }
+							break;
+						}
 					case "Prefab":
 						{
-							Entities[entNumber].AddEvents("INTERACT", (Events.CreatePrefabEvents(game, Entities[entNumber].Name, this, Properties["Prefab"].Split('|'))));                     
+							Entities[entNumber].AddEvents("INTERACT", (Events.CreatePrefabEvents(game, Entities[entNumber].Name, this, Properties["Prefab"].Split('|'))));
 							break;
 						}
 					case "Teleport":
 						{
 							var args = Properties["Teleport"].Split('|');
-                            var events = new List<IEvent>();
-                            events = new List<IEvent>();
-                            events.Add(new BeginEvent(game, this));
-                            events.Add(new ChangeMap(game, args[0], args[1]));
-                            events.Add(new EndEvent(game, EventManager, this));
-                            Entities[entNumber].AddEvents("INTERACT", events);
+							var events = new List<IEvent>();
+							events = new List<IEvent>();
+							events.Add(new BeginEvent(game, this));
+							events.Add(new ChangeMap(game, args[0], args[1]));
+							events.Add(new EndEvent(game, EventManager, this));
+							Entities[entNumber].AddEvents("INTERACT", events);
 							break;
 						}
-					case "SpriteFolder": 
+					case "SpriteFolder":
 						{
 							var walker = (Walker)Entities[entNumber];
-                            walker.SetSprite(game.TextureLoader, null, new Point(34, 90), Sprite.OriginType.BottomMiddle);
-                            walker.LoadWalkerSprites(Properties["SpriteFolder"], game.Content, game.TextureLoader);  
+							walker.SetSprite(game.TextureLoader, null, new Point(34, 90), Sprite.OriginType.BottomMiddle);
+							walker.LoadWalkerSprites(Properties["SpriteFolder"], game.Content, game.TextureLoader);
 							setSpriteProperties(entNumber, Properties);
 							break;
 						}
@@ -1218,238 +1245,238 @@ namespace Magicians
 							if (Properties.Keys.Contains("Talking"))
 							{
 								var walker = (Walker)Entities[entNumber];
-                                var dir = Directions.Down;
-                                switch (Properties["Talking"])
-                                {
-                                    case ("Up"): { dir = Directions.Up; break; }
-                                    case ("UpLeft"): { dir = Directions.UpLeft; break; }
-                                    case ("UpRight"): { dir = Directions.UpRight; break; }
-                                    case ("Left"): { dir = Directions.Left; break; }
-                                    case ("Right"): { dir = Directions.Right; break; }
-                                    case ("Down"): { dir = Directions.Down; break; }
-                                    case ("DownRight"): { dir = Directions.DownRight; break; }
-                                    case ("DownLeft"): { dir = Directions.DownLeft; break; }
-                                }
-                                walker.Behaviour = new TalkAtDirection((Walker)Entities[entNumber], dir);
-                                walker.Mover.ChangeDirection(dir);
+								var dir = Directions.Down;
+								switch (Properties["Talking"])
+								{
+									case ("Up"): { dir = Directions.Up; break; }
+									case ("UpLeft"): { dir = Directions.UpLeft; break; }
+									case ("UpRight"): { dir = Directions.UpRight; break; }
+									case ("Left"): { dir = Directions.Left; break; }
+									case ("Right"): { dir = Directions.Right; break; }
+									case ("Down"): { dir = Directions.Down; break; }
+									case ("DownRight"): { dir = Directions.DownRight; break; }
+									case ("DownLeft"): { dir = Directions.DownLeft; break; }
+								}
+								walker.Behaviour = new TalkAtDirection((Walker)Entities[entNumber], dir);
+								walker.Mover.ChangeDirection(dir);
 							}
 							break;
 						}
 					case "LookAtPlayer":
 						{
 							var walker = (Walker)Entities[entNumber];
-                            walker.Behaviour = new LookAtPlayer((Walker)Entities[entNumber], this);                     
+							walker.Behaviour = new LookAtPlayer((Walker)Entities[entNumber], this);
 							break;
 						}
 					case "SpellEvents":
 						{
 							var events = Properties["SpellEvents"].Split('|');
-                            for (int i = 0; i < events.Length; i++)
-                            {
-                                var args = events[i].Split(',');
-                                try
-                                {
-                                    Entities[entNumber].AddEvents(args[0], Events.ParseEventFromFile(game.Content.RootDirectory + "\\Events\\" + args[1] + ".txt", game, this, Entities[entNumber], true));
-                                    Entities[entNumber].HasSpellCastEvents = true;
-                                }
-                                catch
-                                {
-                                    Console.WriteLine("PANIC: ERROR WHEN PARSING SPELL EVENTS FOR " + Entities[entNumber].Name);
-                                }
-                            }
+							for (int i = 0; i < events.Length; i++)
+							{
+								var args = events[i].Split(',');
+								try
+								{
+									Entities[entNumber].AddEvents(args[0], Events.ParseEventFromFile(game.Content.RootDirectory + "\\Events\\" + args[1] + ".txt", game, this, Entities[entNumber], true));
+									Entities[entNumber].HasSpellCastEvents = true;
+								}
+								catch
+								{
+									Console.WriteLine("PANIC: ERROR WHEN PARSING SPELL EVENTS FOR " + Entities[entNumber].Name);
+								}
+							}
 							break;
 						}
 					case "Lightable":
-						{                     
+						{
 							Entities[entNumber].EntBehaviour = new LightableTorch(Properties["Lightable"]);
 							break;
 						}
 					case "TurnInterval":
 						{
 							try
-                            {
-                                var walker = (Walker)Entities[entNumber];
-                                walker.Mover.SetTurnInterval(float.Parse(Properties["TurnInterval"]));
-                            }
-                            catch
-                            {
-                                Console.WriteLine("PANIC: TRIED TO ADD A TURN INTERVAL TO " + Entities[entNumber].Name + ", BUT THE ENTITY HAD NO MOVER COMPONENT OR THERE WAS AN ERROR IN PARSING THE VALUE");
-                            }                     
+							{
+								var walker = (Walker)Entities[entNumber];
+								walker.Mover.SetTurnInterval(float.Parse(Properties["TurnInterval"]));
+							}
+							catch
+							{
+								Console.WriteLine("PANIC: TRIED TO ADD A TURN INTERVAL TO " + Entities[entNumber].Name + ", BUT THE ENTITY HAD NO MOVER COMPONENT OR THERE WAS AN ERROR IN PARSING THE VALUE");
+							}
 							break;
 						}
 					case "Display":
 						{
 							var name = game.LoadString("Names", Properties["Display"]);
-                            if (name != "TEXT_NOT_FOUND")
-                                ((Walker)Entities[entNumber]).DisplayName = name;
+							if (name != "TEXT_NOT_FOUND")
+								((Walker)Entities[entNumber]).DisplayName = name;
 							break;
 						}
 					case "Pushable":
 						{
 							Directions[] dirs = new Directions[4];
-                            dirs[0] = Directions.Up;
-                            dirs[1] = Directions.Down;
-                            dirs[2] = Directions.Left;
-                            dirs[3] = Directions.Right;
-                            if (Properties.Keys.Contains("PushableDirs"))
-                            {
-                                var args = Properties["PushableDirs"].Split(',');
-                                dirs = new Directions[args.Length];
-                                for (int i = 0; i < args.Length; i++)
-                                {
-                                    dirs[i] = (Directions)int.Parse(args[i]);
-                                }
-                            }
-                            Entities[entNumber].EntBehaviour = new PushableEntity(int.Parse(Properties["Pushable"]), dirs);
+							dirs[0] = Directions.Up;
+							dirs[1] = Directions.Down;
+							dirs[2] = Directions.Left;
+							dirs[3] = Directions.Right;
+							if (Properties.Keys.Contains("PushableDirs"))
+							{
+								var args = Properties["PushableDirs"].Split(',');
+								dirs = new Directions[args.Length];
+								for (int i = 0; i < args.Length; i++)
+								{
+									dirs[i] = (Directions)int.Parse(args[i]);
+								}
+							}
+							Entities[entNumber].EntBehaviour = new PushableEntity(int.Parse(Properties["Pushable"]), dirs);
 							break;
 						}
 					case "InteractEntity":
-                        {
-                            var args = Properties["InteractEntity"].Split(',');
-                            if (args.Length == 2)
-                                Entities[entNumber].AddEvents("INTERACT-" + args[1], Events.ParseEventFromFile(game.Content.RootDirectory + "\\Events\\" + args[0] + ".txt", game, this, Entities[entNumber], true));
-                            else
-                                try
-                                {
-                                    Entities[entNumber].AddEvents("INTERACT-" + args[0], Events.ParseEventFromProperty(Properties["NonFileEvent"], game, this, Entities[entNumber]));
-                                }
-                                catch
-                                {
-                                    Console.WriteLine("PANIC: ERROR WHEN TRYING TO PARSE PROPERTY EVENTS FOR INTERACT ENTITY" + Entities[entNumber]);
-                                }
-                            break;
-                        }
-                    case "Events":
-                        {
-                            if (Entities[entNumber].EntBehaviour is SpellCastEntity)
-                            {
-                                Entities[entNumber].AddEvents("SPELL", Events.ParseEventFromFile(game.Content.RootDirectory + "\\Events\\" + Properties["Events"] + ".txt", game, this, Entities[entNumber], true));
-                            }
-							else if(!Properties.Keys.Contains("Hotspot"))
-                                Entities[entNumber].AddEvents("INTERACT", Events.ParseEventFromFile(game.Content.RootDirectory + "\\Events\\" + Properties["Events"] + ".txt", game, this, Entities[entNumber], true));
-                            break;
-                        }
-                    case "TimedEvents":
-                        {
-                            var args = Properties["TimedEvents"].Split(',');
-                            var time = float.Parse(args[0]);
-                            Entities[entNumber].EntBehaviour = new TimedEventEntity(Entities[entNumber], this, time);
-                            Entities[entNumber].AddEvents("TIMED", Events.ParseEventFromFile(game.Content.RootDirectory + "\\Events\\" + args[1] + ".txt", game, this, Entities[entNumber], true));
-                            break;
-                        }
-                    case "NonFileEvent":
-                        {
-                            if (Entities[entNumber].Events == null)
-                                Entities[entNumber].AddEvents("INTERACT", Events.ParseEventFromProperty(Properties["NonFileEvent"], game, this, Entities[entNumber]));
-                            break;
-                        }
+						{
+							var args = Properties["InteractEntity"].Split(',');
+							if (args.Length == 2)
+								Entities[entNumber].AddEvents("INTERACT-" + args[1], Events.ParseEventFromFile(game.Content.RootDirectory + "\\Events\\" + args[0] + ".txt", game, this, Entities[entNumber], true));
+							else
+								try
+								{
+									Entities[entNumber].AddEvents("INTERACT-" + args[0], Events.ParseEventFromProperty(Properties["NonFileEvent"], game, this, Entities[entNumber]));
+								}
+								catch
+								{
+									Console.WriteLine("PANIC: ERROR WHEN TRYING TO PARSE PROPERTY EVENTS FOR INTERACT ENTITY" + Entities[entNumber]);
+								}
+							break;
+						}
+					case "Events":
+						{
+							if (Entities[entNumber].EntBehaviour is SpellCastEntity)
+							{
+								Entities[entNumber].AddEvents("SPELL", Events.ParseEventFromFile(game.Content.RootDirectory + "\\Events\\" + Properties["Events"] + ".txt", game, this, Entities[entNumber], true));
+							}
+							else if (!Properties.Keys.Contains("Hotspot"))
+								Entities[entNumber].AddEvents("INTERACT", Events.ParseEventFromFile(game.Content.RootDirectory + "\\Events\\" + Properties["Events"] + ".txt", game, this, Entities[entNumber], true));
+							break;
+						}
+					case "TimedEvents":
+						{
+							var args = Properties["TimedEvents"].Split(',');
+							var time = float.Parse(args[0]);
+							Entities[entNumber].EntBehaviour = new TimedEventEntity(Entities[entNumber], this, time);
+							Entities[entNumber].AddEvents("TIMED", Events.ParseEventFromFile(game.Content.RootDirectory + "\\Events\\" + args[1] + ".txt", game, this, Entities[entNumber], true));
+							break;
+						}
+					case "NonFileEvent":
+						{
+							if (Entities[entNumber].Events == null)
+								Entities[entNumber].AddEvents("INTERACT", Events.ParseEventFromProperty(Properties["NonFileEvent"], game, this, Entities[entNumber]));
+							break;
+						}
 					case "LinearMovement":
-                        {
-                            //first arg is the waypoint, second is the speed at which the entity moves, third is the interval
-                            var args = Properties["LinearMovement"].Split(',');
-                            var p = Waypoints[args[0]];
-                            var s = int.Parse(args[1]);
-                            var f = float.Parse(args[2]);
-                            Entities[entNumber].EntBehaviour = new LinearMovingEntity(Entities[entNumber], p, s, f);
-                            break;
-                        }
-                    case "HatesLight":
-                        {
-                            var walker = (Walker)Entities[entNumber];
-                            var behav = (EnemyBehaviour)walker.Behaviour;
-                            behav.behaviours.Add(Behaviours.FreezeOnLight);
-                            for (int i = 0; i < WorldOverlays.Count; i++)
-                            {
-                                if (WorldOverlays[i] is Overlay)
-                                {
-                                    var overlay = (Overlay)WorldOverlays[i];
-                                    //default alpha in a room with darkness is is 225. therefore, 125 should be speed -1, and -25 should be speed minus 2, and 0 is speed minus 1                  
-                                    if (overlay.red == 0 && overlay.blue == 0 && overlay.green == 0)
-                                    {
-                                        switch (overlay.alpha)
-                                        {
-                                            case 125: walker.Mover.ChangeSpeed(walker.Mover.Speed - 1); break;
-                                            case 25: walker.Mover.ChangeSpeed(walker.Mover.Speed - 2); break;
-                                            case 0: walker.Mover.ChangeSpeed(walker.Mover.Speed - 3); break;
+						{
+							//first arg is the waypoint, second is the speed at which the entity moves, third is the interval
+							var args = Properties["LinearMovement"].Split(',');
+							var p = Waypoints[args[0]];
+							var s = int.Parse(args[1]);
+							var f = float.Parse(args[2]);
+							Entities[entNumber].EntBehaviour = new LinearMovingEntity(Entities[entNumber], p, s, f);
+							break;
+						}
+					case "HatesLight":
+						{
+							var walker = (Walker)Entities[entNumber];
+							var behav = (EnemyBehaviour)walker.Behaviour;
+							behav.behaviours.Add(Behaviours.FreezeOnLight);
+							for (int i = 0; i < WorldOverlays.Count; i++)
+							{
+								if (WorldOverlays[i] is Overlay)
+								{
+									var overlay = (Overlay)WorldOverlays[i];
+									//default alpha in a room with darkness is is 225. therefore, 125 should be speed -1, and -25 should be speed minus 2, and 0 is speed minus 1                  
+									if (overlay.red == 0 && overlay.blue == 0 && overlay.green == 0)
+									{
+										switch (overlay.alpha)
+										{
+											case 125: walker.Mover.ChangeSpeed(walker.Mover.Speed - 1); break;
+											case 25: walker.Mover.ChangeSpeed(walker.Mover.Speed - 2); break;
+											case 0: walker.Mover.ChangeSpeed(walker.Mover.Speed - 3); break;
 
-                                        }
-                                    }
-                                    break;
-                                }
-                            }
-                            break;
-                        }
-                }
+										}
+									}
+									break;
+								}
+							}
+							break;
+						}
+				}
 			}
 			if (Properties.Keys.Contains("Bounds"))
-            {
-                var args = Properties["Bounds"].Split(',');
-                if (Entities[entNumber].Sprite == null)
-                    Entities[entNumber].SetBounds(new Point(int.Parse(args[0]), int.Parse(args[1])), new Point(0), false);
-                else
-                {
-                    int xOffset = 0;
-                    int yOffset = 0;
-                    var spriteWidth = int.Parse(args[0]);
-                    if (Entities[entNumber] is Walker)
-                    {
-                        if (Entities[entNumber].Sprite.scaled)
-                        {
-                            //TODO: ENSURE OFFSETS ARE SET CORRECTLY
-                        }
-                        else
-                        {
-                            xOffset = -(spriteWidth / 2);
-                            yOffset = -int.Parse(args[1]);
-                            Entities[entNumber].SetBounds(new Point(int.Parse(args[0]), int.Parse(args[1])), new Point(xOffset, yOffset), false);
-                        }
-                    }
-                    else
-                    {
-                        if (Entities[entNumber].Sprite.scaled)
-                        {
-                            if (int.Parse(args[0]) < Entities[entNumber].Sprite.scaleWidth)
-                            {
-                                xOffset += Entities[entNumber].Sprite.spriteSize.X - spriteWidth;
-                                xOffset = xOffset / 2;
-                            }
-                            if (Entities[entNumber].Sprite.scaleHeight > Entities[entNumber].Sprite.spriteSize.Y)
-                                yOffset -= Entities[entNumber].Sprite.scaleHeight;
-                        }
-                        else
-                        {
-                            if (int.Parse(args[0]) < Entities[entNumber].Sprite.spriteSize.X)
-                            {
-                                xOffset += Entities[entNumber].Sprite.spriteSize.X - spriteWidth;
-                                xOffset = xOffset / 2;
-                            }
-                        }
-                        if (args.Length == 3)
-                            yOffset += int.Parse(args[2]);
-                        Entities[entNumber].SetBounds(new Point(int.Parse(args[0]), int.Parse(args[1])), new Point(xOffset, Entities[entNumber].Sprite.spriteSize.Y - int.Parse(args[1]) - yOffset), false);
-                    }
-                }
-                if (Properties.Keys.Contains("CanPassThrough"))
-                    Entities[entNumber].Bounds.ChangeCanPassThrough(true);
-                if (Properties.Keys.Contains("CanFlyOver"))
-                    Entities[entNumber].Bounds.ChangeCanFlyOver(true);
-            }
-			if(Properties.Keys.Contains("Direction"))
+			{
+				var args = Properties["Bounds"].Split(',');
+				if (Entities[entNumber].Sprite == null)
+					Entities[entNumber].SetBounds(new Point(int.Parse(args[0]), int.Parse(args[1])), new Point(0), false);
+				else
+				{
+					int xOffset = 0;
+					int yOffset = 0;
+					var spriteWidth = int.Parse(args[0]);
+					if (Entities[entNumber] is Walker)
+					{
+						if (Entities[entNumber].Sprite.Scaled)
+						{
+							//TODO: ENSURE OFFSETS ARE SET CORRECTLY
+						}
+						else
+						{
+							xOffset = -(spriteWidth / 2);
+							yOffset = -int.Parse(args[1]);
+							Entities[entNumber].SetBounds(new Point(int.Parse(args[0]), int.Parse(args[1])), new Point(xOffset, yOffset), false);
+						}
+					}
+					else
+					{
+						if (Entities[entNumber].Sprite.Scaled)
+						{
+							if (int.Parse(args[0]) < Entities[entNumber].Sprite.scaleWidth)
+							{
+								xOffset += Entities[entNumber].Sprite.SpriteSize.X - spriteWidth;
+								xOffset = xOffset / 2;
+							}
+							if (Entities[entNumber].Sprite.scaleHeight > Entities[entNumber].Sprite.SpriteSize.Y)
+								yOffset -= Entities[entNumber].Sprite.scaleHeight;
+						}
+						else
+						{
+							if (int.Parse(args[0]) < Entities[entNumber].Sprite.SpriteSize.X)
+							{
+								xOffset += Entities[entNumber].Sprite.SpriteSize.X - spriteWidth;
+								xOffset = xOffset / 2;
+							}
+						}
+						if (args.Length == 3)
+							yOffset += int.Parse(args[2]);
+						Entities[entNumber].SetBounds(new Point(int.Parse(args[0]), int.Parse(args[1])), new Point(xOffset, Entities[entNumber].Sprite.SpriteSize.Y - int.Parse(args[1]) - yOffset), false);
+					}
+				}
+				if (Properties.Keys.Contains("CanPassThrough"))
+					Entities[entNumber].Bounds.ChangeCanPassThrough(true);
+				if (Properties.Keys.Contains("CanFlyOver"))
+					Entities[entNumber].Bounds.ChangeCanFlyOver(true);
+			}
+			if (Properties.Keys.Contains("Direction"))
 			{
 				var walker = (Walker)Entities[entNumber];
-                Directions dir = Directions.Down;
-                switch (Properties["Direction"])
-                {
-                    case ("Up"): { dir = Directions.Up; break; }
-                    case ("UpLeft"): { dir = Directions.UpLeft; break; }
-                    case ("UpRight"): { dir = Directions.UpRight; break; }
-                    case ("Left"): { dir = Directions.Left; break; }
-                    case ("Right"): { dir = Directions.Right; break; }
-                    case ("Down"): { dir = Directions.Down; break; }
-                    case ("DownRight"): { dir = Directions.DownRight; break; }
-                    case ("DownLeft"): { dir = Directions.DownLeft; break; }
-                }
-                walker.Mover.ChangeDirection(dir);
+				Directions dir = Directions.Down;
+				switch (Properties["Direction"])
+				{
+					case ("Up"): { dir = Directions.Up; break; }
+					case ("UpLeft"): { dir = Directions.UpLeft; break; }
+					case ("UpRight"): { dir = Directions.UpRight; break; }
+					case ("Left"): { dir = Directions.Left; break; }
+					case ("Right"): { dir = Directions.Right; break; }
+					case ("Down"): { dir = Directions.Down; break; }
+					case ("DownRight"): { dir = Directions.DownRight; break; }
+					case ("DownLeft"): { dir = Directions.DownLeft; break; }
+				}
+				walker.Mover.ChangeDirection(dir);
 			}
 			if (Properties.Keys.Contains("Movement"))
 			{
@@ -1496,7 +1523,7 @@ namespace Magicians
 								walker.Behaviour = new EyeRotate(walker, this, (Directions)int.Parse(args[0]), (Directions)int.Parse(args[1]));
 							}
 							else
-								walker.Behaviour = new EyeRotate(walker, this);                     
+								walker.Behaviour = new EyeRotate(walker, this);
 							if (Properties.ContainsKey("Events"))
 								Entities[entNumber].AddEvents("SPECIAL", Events.ParseEventFromFile(game.Content.RootDirectory + "\\Events\\" + Properties["Events"] + ".txt", game, this, Entities[entNumber], true));
 							if (Properties.ContainsKey("Reverse"))
@@ -1589,7 +1616,7 @@ namespace Magicians
 							break;
 						}
 				}
-			}         
+			}
 			if (Properties.Keys.Contains("ActivateOnCollision"))
 			{
 				if (Properties.ContainsKey("Events"))
@@ -1653,6 +1680,8 @@ namespace Magicians
 		public void SpawnPlayerEntity(PlayerCharacter pc)
 		{
 			Entities.Add(new Walker(findNewId(), "ENT_" + pc.Name.ToUpper(), new Point(Entities[1].Position.X, Entities[1].Position.Y), this, game.randomNumber.Next(145, 175)));
+			//Entities.Add(new OldEntity("ENT_" + (pc.Name.ToUpper()), Entities[0].Position, null, new Mover(3, Mover.MovementType.Directional), new Bounds(new Vector2(Entities[0].Position.X, Entities[0].Position.Y), 34, 18, true)));
+			//Entities[Entities.Count - 1].SetSprite(new Sprite(null, new Vector2(Entities[0].Position.X, Entities[0].Position.Y), 0.5f, new Vector2(38, 90), Sprite.OriginType.TopLeft));
 			var walker = (Walker)Entities[Entities.Count - 1];
 			walker.SetSprite(game.TextureLoader, null, new Point(34, 90), Sprite.OriginType.BottomMiddle);
 			walker.Sprite.SetInterval(walker.baseWalkerInterval);
@@ -1746,11 +1775,12 @@ namespace Magicians
 						var rWalk = (RandomWalk)ent.Behaviour;
 						rWalk.findNewPosition = true;
 					}
-					ent.Sprite.currentFrame = 0;
+					ent.Sprite.CurrentFrame = 0;
 					ent.Sprite.ResetTimer();
 					ent.ChangeWalkerState(WalkerState.Standing);
 					ent.Mover.Waypoints.Clear();
 					ent.Mover.SetTarget(Point.Zero);
+					//needsNewWaypoints = true;
 					blockingRec = rec;
 					goto CheckBounds;
 				}
@@ -1770,7 +1800,7 @@ namespace Magicians
 						case Directions.UpLeft: ent.ChangePosition(new Point(ent.Position.X + 1, ent.Position.Y + 1)); break;
 						case Directions.DownLeft: ent.ChangePosition(new Point(ent.Position.X + 1, ent.Position.Y - 1)); break;
 					}
-					ent.Sprite.currentFrame = 0;
+					ent.Sprite.CurrentFrame = 0;
 					ent.Sprite.ResetTimer();
 					ent.ChangeWalkerState(WalkerState.Standing);
 					ent.Bounds.Update();
@@ -1865,7 +1895,7 @@ namespace Magicians
 			{
 				if (Entities[i].Sprite != null)
 				{
-					if (Entities[i].Sprite.ignoreDepthSorting == false)
+					if (!Entities[i].Sprite.IgnoreDepthSorting)
 					{
 						sprites.Add(Entities[i].Sprite);
 					}
@@ -1873,12 +1903,12 @@ namespace Magicians
 			}
 			for (int i = 0; i < effects.Count; i++)
 			{
-				if (effects[i].sprite.ignoreDepthSorting == false)
+				if (effects[i].sprite.IgnoreDepthSorting == false)
 				{
 					effects[i].SetDepth();
 				}
 			}
-			sprites.Sort((y, z) => y.bottomY.CompareTo(z.bottomY));
+			sprites.Sort((y, z) => y.BottomY.CompareTo(z.BottomY));
 			var depth = furthestDepth;
 			foreach (Sprite sprite in sprites)
 			{
@@ -2089,7 +2119,7 @@ namespace Magicians
 			}
 			Waypoints.Add("StartingPoint", point);
 			interactHighlight = new Sprite(g.TextureLoader, "UI\\World\\InteractHighlight", new Point(-999, -999), 0.39f, new Point(20, 20), Sprite.OriginType.FromCentre);
-			interactHighlight.ignoreDepthSorting = true;
+			interactHighlight.SetIgnoreDepthSorting(true);
 			///Spawn player
 			Entities.Add(new Walker(findNewId(), "ENT_PLAYER", point, this, 160));
 			var player = (Walker)Entities[1];
@@ -2205,7 +2235,7 @@ namespace Magicians
 							walker.Mover.ChangeDirection((Directions)direction);
 							walker.Mover.SetTurnInterval(0.075f);
 							walker.LoadWalkerSprites(battler.worldGraphicsFolder, game.Content, game.TextureLoader);
-							walker.SetBounds(new Point(32, 16), new Point(-(walker.Sprite.spriteSize.X / 2), -16), true);
+							walker.SetBounds(new Point(32, 16), new Point(-(walker.Sprite.SpriteSize.X / 2), -16), true);
 							var behavs = new List<Behaviours>();
 							behavs.AddRange(battler.worldBehaviours);
 							walker.Behaviour = new EnemyBehaviour(this, walker, 200, behavs);
@@ -2324,7 +2354,7 @@ namespace Magicians
 									}
 									break;
 							}
-							break;                  
+							break;
 					}
 				}
 			foreach (var tileset in Tilesets.Values)
