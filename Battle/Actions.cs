@@ -8,9 +8,8 @@ namespace Magicians
 {
 	class BattleAction
 	{
-		public string Name; //the internal name of an attack.
-							//whether the action is a friendly or hostile action
-		public enum Direction { Self = 1, Enemy = 2, Both = 3 }
+		public string Name; //the internal name of an attack.					
+		public enum Direction { Self = 1, Enemy = 2, Both = 3 } //whether the action is a friendly or hostile action
 		Direction direction;
 		public Direction bDirection { get { return direction; } }
 		public enum TargetType { Single = 1, All = 2, Random = 3, Self = 4 } //self denotes the effect be placed upon the caster
