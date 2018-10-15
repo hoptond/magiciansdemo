@@ -11,8 +11,8 @@ namespace Magicians
 {
     class Party
     {
-	readonly Game game;
-	public int Gold;
+        readonly Game game;
+        public int Gold;
         public List<Item> TempInventory = new List<Item>(16);
         public QuestStats QuestStats = new QuestStats();
         public List<PlayerCharacter> PlayerCharacters;
