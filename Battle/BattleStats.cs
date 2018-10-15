@@ -29,7 +29,7 @@ namespace Magicians
 		public int baseArmour;
 		public int Armour;
 
-		public int Luck; //starts at 0, min is -2, max is +2#
+		public int Luck; //starts at 0, min is -2, max is +2
 		public int baseLuck;
 
 		//Resistance is calculated in percentage so a fire resistance of 95 blocks 95% of incoming fire damage
