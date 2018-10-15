@@ -11,8 +11,8 @@ namespace Magicians
 {
     class Party
     {
-		readonly Game game;
-		public int Gold;
+	readonly Game game;
+	public int Gold;
         public List<Item> TempInventory = new List<Item>(16);
         public QuestStats QuestStats = new QuestStats();
         public List<PlayerCharacter> PlayerCharacters;
@@ -39,7 +39,7 @@ namespace Magicians
             return null;
         }
         //removes the character from the ActiveCharacters list and puts them into the inactive characters list
-		public void RemoveCharacterFromParty(int id, bool lockPC) 
+	public void RemoveCharacterFromParty(int id, bool lockPC) 
         {
             var pc = GetPlayerCharacter(id);
             if (pc != null && ActiveCharacters.Contains(pc.ID))
