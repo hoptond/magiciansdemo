@@ -223,7 +223,7 @@ namespace Magicians
 				textPosition = 0;
 			}
 			int i = 0;
-			//todo: add continue lines after each i = 0 because s h i t c o d e
+			//todo: replace this horrible shitcode with regex at some point
 			while (i + 4 < Text.Length)
 			{
 				if (Text[i] == '$')
