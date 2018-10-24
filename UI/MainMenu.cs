@@ -32,12 +32,9 @@ namespace Magicians
 		public SaveGameMenu saveMenu { get; private set; }
 		string[] strings;
 		Button[] Buttons;
-
-
+		
 		const int flakeSize = 16;
-
-
-
+		
 		public void Update(GameTime gameTime)
 		{
 			if (inMenu)
