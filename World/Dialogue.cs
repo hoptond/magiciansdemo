@@ -9,7 +9,6 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Magicians
 {
-
 	class DialogueManager
 	{
 		readonly Game game;
