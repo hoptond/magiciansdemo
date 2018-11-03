@@ -16,27 +16,31 @@ namespace Magicians
 		public enum DiagStates { Parsing, Inactive, Null };
 		public DiagStates State { get; private set; }
 		public string Text { get; private set; }
+		public float FastSkipTimer { get; private set; }
+
 		TimeSpan timer = TimeSpan.Zero;
-		public TimeSpan Timer { get { return timer; } }
-		public float originDelay;
-		public float delay; //the delay in milliseconds between each letter
+
+		float originDelay;
+		float delay; //the delay in milliseconds between each letter
 		Vector2 drawnPosition;
 		int textPosition;
 		StringBuilder sb = new StringBuilder();
 		Walker activeSpeaker; //the active speaker
-		Texture2D dialogueWindow;
-		Texture2D nameWindow;
-		Texture2D bigNameWindow;
-		Texture2D[] nextIcon = new Texture2D[2];
+
 		int nextDiagFrame;
 		bool skippedText;
 		int steps;
 		const int minSkipTime = 2;
 		bool usingBigNameWindow;
-		public float fastSkipTimer { get; private set; }
+
+		Texture2D dialogueWindow;
+        Texture2D nameWindow;
+        Texture2D bigNameWindow;
+        Texture2D[] nextIcon = new Texture2D[2];
+
 		public DialogueManager(Game game)
 		{
-			fastSkipTimer = 0;
+			FastSkipTimer = 0;
 			this.game = game;
 			textPosition = 1;
 			drawnPosition = new Vector2(50, 50);
@@ -48,18 +52,18 @@ namespace Magicians
 			timer += gameTime.ElapsedGameTime;
 			if (!game.Input.IsKeyPressed(game.settings.interactKey))
 			{
-				fastSkipTimer = 0;
+				FastSkipTimer = 0;
 			}
 			else
 			{
-				fastSkipTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+				FastSkipTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 			}
 			switch (State)
 			{
 				case (DiagStates.Parsing):
 					{
 						steps += 1;
-						if (Text.Substring(0, textPosition).Length != Text.Length && (game.Input.IsKeyReleased(game.settings.interactKey) || game.Input.IsMouseButtonReleased() && game.debug == false || fastSkipTimer > 1f))
+						if (Text.Substring(0, textPosition).Length != Text.Length && (game.Input.IsKeyReleased(game.settings.interactKey) || game.Input.IsMouseButtonReleased() && game.debug == false || FastSkipTimer > 1f))
 						{
 							if (steps > minSkipTime)
 							{
@@ -163,7 +167,7 @@ namespace Magicians
 						}
 						else
 						{
-							spriteBatch.DrawString(game.mediumFont, activeSpeaker.DisplayName, new Vector2((int)baseOffset.X + 128, (int)baseOffset.Y - 16), Color.White, 0.0f, TextMethods.CenterText(game.mediumFont, activeSpeaker.DisplayName), 1.0f, SpriteEffects.None, 0.10f);
+							spriteBatch.DrawString(game.mediumFont, activeSpeaker.DisplayName, new Vector2(baseOffset.X + 128, baseOffset.Y - 16), Color.White, 0.0f, TextMethods.CenterText(game.mediumFont, activeSpeaker.DisplayName), 1.0f, SpriteEffects.None, 0.10f);
 							spriteBatch.Draw(nameWindow, new Rectangle(baseOffset.X + 48, baseOffset.Y - 48, 160, 64), null, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, 0.11f);
 						}
 					}
