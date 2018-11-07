@@ -390,20 +390,20 @@ namespace Magicians
                 Animations[BattlerAnimType.CastSpell] = g.TextureLoader.RequestTexture("Sprites\\Battlers\\" + battlerGraphicsFolder + "\\PostCast");
             if (File.Exists(g.Content.RootDirectory + g.PathSeperator + "Sprites" + g.PathSeperator + "Battlers" + g.PathSeperator + battlerGraphicsFolder + g.PathSeperator + "PostAttack.xnb"))
                 Animations[BattlerAnimType.PostAttack] = g.TextureLoader.RequestTexture("Sprites\\Battlers\\" + battlerGraphicsFolder + "\\PostAttack");
-			//TODO: replace these with properties loaded from the xml file
-			if (battlerGraphicsFolder == "placeholder")
+	    //TODO: replace these with properties loaded from the xml file
+	    if (battlerGraphicsFolder == "placeholder")
             {
-				Sprite = new Sprite(g.TextureLoader, null, vec, 0.5f, new Point(Animations[BattlerAnimType.Idle].Width / 2, Animations[BattlerAnimType.Idle].Height), Sprite.OriginType.FromCentre);
+		Sprite = new Sprite(g.TextureLoader, null, vec, 0.5f, new Point(Animations[BattlerAnimType.Idle].Width / 2, Animations[BattlerAnimType.Idle].Height), Sprite.OriginType.FromCentre);
                 Sprite.SetInterval(280);
             }
             else if(Width == -1)
             {
-				Sprite = new Sprite(g.TextureLoader, null, vec, 0.5f, new Point(Animations[BattlerAnimType.Idle].Width / 4, Animations[BattlerAnimType.Idle].Height), Sprite.OriginType.FromCentre);
+		Sprite = new Sprite(g.TextureLoader, null, vec, 0.5f, new Point(Animations[BattlerAnimType.Idle].Width / 4, Animations[BattlerAnimType.Idle].Height), Sprite.OriginType.FromCentre);
                 Sprite.SetInterval(140);
             }
             else
             {
-				Sprite = new Sprite(g.TextureLoader, null, vec, 0.5f, new Point(Width, Height), Sprite.OriginType.FromCentre);
+		Sprite = new Sprite(g.TextureLoader, null, vec, 0.5f, new Point(Width, Height), Sprite.OriginType.FromCentre);
                 Sprite.SetInterval(140);
             }
             Sprite.ChangeTexture2D(Animations[BattlerAnimType.Idle]);         
