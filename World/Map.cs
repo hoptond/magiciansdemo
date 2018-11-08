@@ -107,7 +107,7 @@ namespace Magicians
 									Enemies[e].Mover.ChangeMovement(Directions.None);
 									Enemies[e].Mover.SetTarget(Point.Zero);
 								}
-								EventManager.SetEvents(Entities[i].ReturnEvents("INTERACT"));
+								EventManager.SetEvents(Entities[i].GetEvents("INTERACT"));
 								EventManager.DoEvent();
 								if (Entities.Count >= i || Entities.Count < i)
 									goto EndOfLoop;
@@ -142,7 +142,7 @@ namespace Magicians
 									}
 									if (Entities[i].StaticBattler)
 										game.staticbattler = Entities[i].Name;
-									EventManager.SetEvents(Entities[i].ReturnEvents("COLLIDEPARTY"));
+									EventManager.SetEvents(Entities[i].GetEvents("COLLIDEPARTY"));
 									EventManager.DoEvent();
 									if (Entities.Count >= i || Entities.Count < i)
 										goto EndOfLoop;
@@ -176,7 +176,7 @@ namespace Magicians
 										Enemies[e].Mover.ChangeMovement(Directions.None);
 										Enemies[e].Mover.SetTarget(Point.Zero);
 									}
-									EventManager.SetEvents(Entities[i].ReturnEvents("COLLIDE"));
+									EventManager.SetEvents(Entities[i].GetEvents("COLLIDE"));
 									EventManager.DoEvent();
 									if (Entities.Count >= i || Entities.Count < i)
 										goto EndOfLoop;
@@ -191,7 +191,7 @@ namespace Magicians
 								var walker = (Walker)Entities[i];
 								if (walker.Behaviour is EnemyBehaviour || walker.Behaviour is Patrol || walker.Behaviour == null)
 								{
-									var s = walker.ReturnInteractEntityName();
+									var s = walker.GetInteractEntityName();
 									var interactEntities = new List<Entity>();
 									for (int search = 0; search < Entities.Count; search++)
 									{
@@ -229,7 +229,7 @@ namespace Magicians
 													Enemies[e].Mover.ChangeMovement(Directions.None);
 													Enemies[e].Mover.SetTarget(Point.Zero);
 												}
-												EventManager.SetEvents(Entities[i].ReturnEvents("INTERACT-" + s), Entities[i], interactEntities[ie]);
+												EventManager.SetEvents(Entities[i].GetEvents("INTERACT-" + s), Entities[i], interactEntities[ie]);
 												EventManager.DoEvent();
 												if (Entities.Count >= i || Entities.Count < i)
 													goto EndOfLoop;
@@ -241,7 +241,7 @@ namespace Magicians
 							}
 							else
 							{
-								var s = Entities[i].ReturnInteractEntityName();
+								var s = Entities[i].GetInteractEntityName();
 								var interactEntities = new List<Entity>();
 								for (int search = 0; search < Entities.Count; search++)
 								{
@@ -269,7 +269,7 @@ namespace Magicians
 												Enemies[e].Mover.ChangeMovement(Directions.None);
 												Enemies[e].Mover.SetTarget(Point.Zero);
 											}
-											EventManager.SetEvents(Entities[i].ReturnEvents("INTERACT-" + s), Entities[i], interactEntities[ie]);
+											EventManager.SetEvents(Entities[i].GetEvents("INTERACT-" + s), Entities[i], interactEntities[ie]);
 											EventManager.DoEvent();
 											if (Entities.Count >= i || Entities.Count < i)
 												goto EndOfLoop;

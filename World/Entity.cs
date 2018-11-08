@@ -10,6 +10,7 @@ using System.IO;
 namespace Magicians
 {
 	public enum WalkerState { None, Standing, Walking, Running, Talking, Custom }
+
 	class Entity
 	{
 		public int ID { get; protected set; }
@@ -82,7 +83,7 @@ namespace Magicians
 			if (!Events.ContainsKey(key))
 				Events.Add(key, events);
 		}
-		public List<IEvent> ReturnEvents(string key)
+		public List<IEvent> GetEvents(string key)
 		{
 			try
 			{
@@ -93,7 +94,7 @@ namespace Magicians
 				return null;
 			}
 		}
-		public string ReturnInteractEntityName()
+		public string GetInteractEntityName()
 		{
 			foreach (string s in Events.Keys)
 			{
@@ -105,6 +106,7 @@ namespace Magicians
 			return "";
 		}
 	}
+
 	class Walker : Entity
 	{
 		Map map;
