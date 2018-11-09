@@ -338,8 +338,6 @@ namespace Magicians
 					}
 				}
 				EventManager.Update(gameTime);
-				//interactBox = Rectangle.Empty;
-				//interactHighlight.ChangeDrawnPosition(new Vector2(-999, -999));
 				if (walkSoundRecs != null)
 				{
 					int volume = 75;
@@ -763,10 +761,8 @@ namespace Magicians
 				points.Add(target);
 				return points;
 			}
-			//temp.RemoveAt(0);
 			for (int i = 0; i < temp.Count; i++)
 			{
-				//temp[i] = new Point(upperLeft.X + (, upperLeft.Y + (temp[i].Y * NodeGap));
 				if (Vector2.Distance(temp[i].RealLocation.ToVector2(), target.ToVector2()) < NodeGap)
 				{
 					temp.RemoveAt(i);
@@ -813,16 +809,6 @@ namespace Magicians
 				}
 
 			}
-			//for (int i = 0; i < points.Count - 1; i++)
-			//{
-			//    if (CanTravelOverTwoPoints(ent, points[i], points[i + 1]))
-			//    {
-			//        checkPointIndex = i;
-			//        points.RemoveAt(i);
-			//    }
-			//    else
-			//        checkPointIndex = i;
-			//}
 			if (!CanTravelOverTwoPoints(ent, start, points[0]))
 			{
 				var b = points[0];

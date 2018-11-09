@@ -139,7 +139,6 @@ namespace Magicians
 			map.FaceEntity((Walker)map.GetEntityFromName(caster), target);
 			var s = map.GetEntityFromName(caster).Sprite.GraphicsDir;
 			events.Add(new BeginEvent(game, map));
-			//events.Add(new PlayCustomSprite(caster, "Sprites\\" + s + "\\Custom\\CastSpell" + map.GetEntityFromName(caster).Mover.direction.ToString()));
 			events.Add(new PlaySound(game, "AggroCast"));
 			events.Add(new EndEvent(game, map.EventManager, map));
 			map.EventManager.SetEvents(events, true);
@@ -210,7 +209,6 @@ namespace Magicians
 		{
 			map.FaceEntity((Walker)map.GetEntityFromName(caster), torch);
 			var s = map.GetEntityFromName(caster).Sprite.GraphicsDir;
-			//events.Add(new PlayCustomSprite(caster, "Sprites\\" + s + "\\Custom\\CastSpell" + map.GetEntityFromName(caster).Mover.direction.ToString()));
 			game.Audio.PlaySound("TorchLight", true);
 			var lt = torch.EntBehaviour as LightableTorch;
 			s = "Sprites\\" + lt.litTorchPath;
@@ -268,7 +266,6 @@ namespace Magicians
 			map.FaceEntity((Walker)map.GetEntityFromName(caster), target);
 			var s = map.GetEntityFromName(caster).Sprite.GraphicsDir;
 			events.Add(new BeginEvent(game, map));
-			//events.Add(new PlayCustomSprite(caster, "Sprites\\" + s + "\\Custom\\CastSpell" + map.GetEntityFromName(caster).Mover.direction.ToString()));
 			events.Add(new PlaySound(game, "BlindCast"));
 			events.Add(new EndEvent(game, map.EventManager, map));
 			map.EventManager.SetEvents(events);

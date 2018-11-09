@@ -96,7 +96,6 @@ namespace Magicians
 					}
 				}
 				Vector2 windDir;
-				//windDir = new Vector2(game.randomNumber.Next(minX, minY) + (float)game.randomNumber.NextDouble(), game.randomNumber.Next(maxX, maxY) + (float)game.randomNumber.NextDouble());
 				windDir = new Vector2(1.5f, 4.5f);
 				for (int i = 0; i < snowFlakes.Count; i++)
 				{

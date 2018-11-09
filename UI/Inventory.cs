@@ -38,7 +38,6 @@ namespace Magicians
 		public override void Update(GameTime gameTime)
 		{
 			base.Update(gameTime);
-			//TOODO: ADD DRAG AND DROP STUFF
 			var baseOffset = new Vector2(64, 96);
 			var recs = new Rectangle[pc.Inventory.Count];
 			var drawVector = new Vector2(TopLeft.X + 23, TopLeft.Y + 153);

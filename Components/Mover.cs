@@ -16,7 +16,6 @@ namespace Magicians
 		public Point Target { get; private set; }
 		public Directions direction { get; private set; }
 		public Directions lastDirection { get; private set; }
-		//public Directions lastDir { get; private set; } //the last direction this mover moved in. 
 		public List<Point> Waypoints = new List<Point>();
 
 		//used if we want our walker to turn around realistically, and not on a dime.
@@ -135,11 +134,6 @@ namespace Magicians
 				dir = Directions.Up;
 			if (dir == 0)
 				dir = Directions.UpLeft;
-			//direction = dir;
-			if (direction != dir)
-			{
-				//Console.WriteLine("Movement of " + name + " changed to" + dir.ToString() + " in tick" + game.tick);
-			}
 			if (turnInterval <= 0 || (turnInterval > 0 && canTurn))
 			{
 				direction = dir;
@@ -149,11 +143,6 @@ namespace Magicians
 		public void ChangeMovement(Directions dir)
 		{
 			lastDirection = direction;
-			//Directions currentDir = this.direction;
-			if (direction != dir)
-			{
-				//Console.WriteLine("Movement of " + name + " changed to" + dir.ToString() + " in tick" + game.tick);
-			}
 			if (turnInterval <= 0)
 			{
 				changeMovement(dir);
