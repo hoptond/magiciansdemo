@@ -1177,7 +1177,7 @@ namespace Magicians
 			if (spawn)
 			{
 				if (Properties.Keys.Contains("SpriteFolder") || Properties.Keys.Contains("Mover"))
-					Entities.Add(new Walker(findNewId(), obj.Attribute("name").Value, new Point((int)float.Parse(obj.Attribute("x").Value) + ((int)float.Parse(obj.Attribute("width").Value) / 2), (int)float.Parse(obj.Attribute("y").Value) + ((int)float.Parse(obj.Attribute("height").Value))), this, 160));
+					Entities.Add(new Walker(findNewId(), obj.Attribute("name").Value, new Point((int)float.Parse(obj.Attribute("x").Value) + ((int)float.Parse(obj.Attribute("width").Value) / 2), (int)float.Parse(obj.Attribute("y").Value) + ((int)float.Parse(obj.Attribute("height").Value))), 160));
 				else
 					Entities.Add(new Entity(findNewId(), obj.Attribute("name").Value, new Point((int)float.Parse(obj.Attribute("x").Value), (int)float.Parse(obj.Attribute("y").Value))));
 			}
@@ -1243,7 +1243,7 @@ namespace Magicians
 									case ("DownRight"): { dir = Directions.DownRight; break; }
 									case ("DownLeft"): { dir = Directions.DownLeft; break; }
 								}
-								walker.Behaviour = new TalkAtDirection((Walker)Entities[entNumber], dir);
+								walker.Behaviour = new TalkAtDirection(this, (Walker)Entities[entNumber], dir);
 								walker.Mover.ChangeDirection(dir);
 							}
 							break;
@@ -1466,7 +1466,7 @@ namespace Magicians
 			}
 			if (Properties.Keys.Contains("Movement"))
 			{
-				var walker = new Walker(-1, "", Point.Zero, this, 160);
+				var walker = new Walker(-1, "", Point.Zero, 160);
 				if (Entities[entNumber] is Walker)
 					walker = (Walker)Entities[entNumber];
 				switch (Properties["Movement"])
@@ -1494,7 +1494,7 @@ namespace Magicians
 						}
 					case ("RandomWalk"):
 						{
-							walker.Behaviour = new RandomWalk(walker, game.randomNumber);
+							walker.Behaviour = new RandomWalk(this, walker, game.randomNumber);
 							if (Properties.ContainsKey("Events"))
 							{
 								Entities[entNumber].AddEvents("INTERACT", Events.ParseEventFromFile(game.Content.RootDirectory + "\\Events\\" + Properties["Events"] + ".txt", game, this, Entities[entNumber], true));
@@ -1665,7 +1665,7 @@ namespace Magicians
 		}
 		public void SpawnPlayerEntity(PlayerCharacter pc)
 		{
-			Entities.Add(new Walker(findNewId(), "ENT_" + pc.Name.ToUpper(), new Point(Entities[1].Position.X, Entities[1].Position.Y), this, game.randomNumber.Next(145, 175)));
+			Entities.Add(new Walker(findNewId(), "ENT_" + pc.Name.ToUpper(), new Point(Entities[1].Position.X, Entities[1].Position.Y), game.randomNumber.Next(145, 175)));
 			//Entities.Add(new OldEntity("ENT_" + (pc.Name.ToUpper()), Entities[0].Position, null, new Mover(3, Mover.MovementType.Directional), new Bounds(new Vector2(Entities[0].Position.X, Entities[0].Position.Y), 34, 18, true)));
 			//Entities[Entities.Count - 1].SetSprite(new Sprite(null, new Vector2(Entities[0].Position.X, Entities[0].Position.Y), 0.5f, new Vector2(38, 90), Sprite.OriginType.TopLeft));
 			var walker = (Walker)Entities[Entities.Count - 1];
@@ -2107,12 +2107,12 @@ namespace Magicians
 			interactHighlight = new Sprite(g.TextureLoader, "UI\\World\\InteractHighlight", new Point(-999, -999), 0.39f, new Point(20, 20), Sprite.OriginType.FromCentre);
 			interactHighlight.SetIgnoreDepthSorting(true);
 			///Spawn player
-			Entities.Add(new Walker(findNewId(), "ENT_PLAYER", point, this, 160));
+			Entities.Add(new Walker(findNewId(), "ENT_PLAYER", point, 160));
 			var player = (Walker)Entities[1];
 			player.SetSprite(g.TextureLoader, null, new Point(34, 90), Sprite.OriginType.BottomMiddle);
 			player.SetBounds(new Point(32, 16), new Point(-16, -16), true);
 			player.DisplayName = g.party.PlayerCharacters[0].Name;
-			player.Behaviour = new PlayerBehaviour();
+			player.Behaviour = new PlayerBehaviour(this);
 			player.SetMover(walkSpeed);
 			player.Mover.ChangeDirection(dir);
 			player.Sprite.SetInterval(160);
@@ -2213,7 +2213,7 @@ namespace Magicians
 								}
 							}
 							entNumber = Entities.Count;
-							Entities.Add(new Walker(findNewId(), name, SpawnPos, this, 160));
+							Entities.Add(new Walker(findNewId(), name, SpawnPos, 160));
 							var walker = (Walker)Entities[entNumber];
 							walker.SetSprite(game.TextureLoader, null, new Point(34, 90), Sprite.OriginType.BottomMiddle);
 							walker.SetMover(battler.worldMovementSpeed);

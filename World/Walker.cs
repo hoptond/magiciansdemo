@@ -19,7 +19,6 @@ namespace Magicians
 
     class Walker : Entity
     {
-        Map map;
         public Mover Mover { get; private set; }
         public WalkerState walkerState { get; private set; }
         public SortedList<Directions, Texture2D> StandingSprites = new SortedList<Directions, Texture2D>();
@@ -28,13 +27,12 @@ namespace Magicians
         public SortedList<Directions, Texture2D> TalkingSprites = new SortedList<Directions, Texture2D>();
         public bool playingCustomAnim;
         public string DisplayName;
-        public IWalkerBehaviour Behaviour { get; set; }
+        public WalkerBehaviour Behaviour { get; set; }
         public int baseWalkerInterval { get; set; }
 
-        public Walker(int id, string name, Point pos, Map m, int bWI)
+        public Walker(int id, string name, Point pos, int bWI)
             : base(id, name, pos)
         {
-            map = m;
             baseWalkerInterval = bWI;
             SetMover(0);
         }
@@ -50,10 +48,13 @@ namespace Magicians
                     Sprite.SetInterval(160);
                 }
             }
-
+            List<Point> list = null;
             if (Behaviour != null)
+            {
                 Behaviour.Update(gameTime);
-            GetMovement();
+                list = Behaviour.GetMovement();
+            }
+            GetMovement(list);
             if (Mover.Movement == Vector2.Zero && walkerState != WalkerState.Talking && !playingCustomAnim)
                 ChangeWalkerState(WalkerState.Standing);
             if (Mover.Movement != Vector2.Zero && walkerState == WalkerState.Standing)
@@ -81,40 +82,10 @@ namespace Magicians
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (Behaviour is EyeRotate)
+            if (Behaviour is IViewTextureGetter)
             {
-                var behav = (EyeRotate)Behaviour;
-                switch (Mover.direction)
-                {
-                    case Directions.Up: spriteBatch.Draw(map.game.TextureLoader.RequestTexture("Sprites\\World\\Effects\\ViewTriangleU"), new Rectangle((int)behav.view.A.X - 95, (int)behav.view.A.Y - 192, 190, 192), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.6f); break;
-                    case Directions.Left: spriteBatch.Draw(map.game.TextureLoader.RequestTexture("Sprites\\World\\Effects\\ViewTriangleL"), new Rectangle((int)behav.view.A.X - 190, (int)behav.view.A.Y - 96, 190, 196), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.6f); break;
-                    case Directions.Down: spriteBatch.Draw(map.game.TextureLoader.RequestTexture("Sprites\\World\\Effects\\ViewTriangleD"), new Rectangle((int)behav.view.A.X - 95, (int)behav.view.A.Y, 190, 192), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.6f); break;
-                    case Directions.Right: spriteBatch.Draw(map.game.TextureLoader.RequestTexture("Sprites\\World\\Effects\\ViewTriangleR"), new Rectangle((int)behav.view.A.X, (int)behav.view.A.Y - 96, 190, 192), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.6f); break;
-
-                    case Directions.UpRight: spriteBatch.Draw(map.game.TextureLoader.RequestTexture("Sprites\\World\\Effects\\ViewTriangleUR"), new Rectangle((int)behav.view.A.X, (int)behav.view.A.Y - 202, 202, 202), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.6f); break;
-                    case Directions.DownRight: spriteBatch.Draw(map.game.TextureLoader.RequestTexture("Sprites\\World\\Effects\\ViewTriangleDR"), new Rectangle((int)behav.view.A.X, (int)behav.view.A.Y, 202, 202), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.6f); break;
-                    case Directions.DownLeft: spriteBatch.Draw(map.game.TextureLoader.RequestTexture("Sprites\\World\\Effects\\ViewTriangleDL"), new Rectangle((int)behav.view.A.X - 202, (int)behav.view.A.Y, 202, 202), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.6f); break;
-                    case Directions.UpLeft: spriteBatch.Draw(map.game.TextureLoader.RequestTexture("Sprites\\World\\Effects\\ViewTriangleUL"), new Rectangle((int)behav.view.A.X - 202, (int)behav.view.A.Y - 202, 202, 202), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.6f); break;
-                }
-            }
-            if (Behaviour is Patrol)
-            {
-                var behav = (Patrol)Behaviour;
-                if (behav.canSee)
-                {
-                    switch (Mover.direction)
-                    {
-                        case Directions.Up: spriteBatch.Draw(map.game.TextureLoader.RequestTexture("Sprites\\World\\Effects\\ViewTriangleU"), new Rectangle((int)behav.view.A.X - 95, (int)behav.view.A.Y - 192, 190, 192), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.6f); break;
-                        case Directions.Left: spriteBatch.Draw(map.game.TextureLoader.RequestTexture("Sprites\\World\\Effects\\ViewTriangleL"), new Rectangle((int)behav.view.A.X - 190, (int)behav.view.A.Y - 96, 190, 196), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.6f); break;
-                        case Directions.Down: spriteBatch.Draw(map.game.TextureLoader.RequestTexture("Sprites\\World\\Effects\\ViewTriangleD"), new Rectangle((int)behav.view.A.X - 95, (int)behav.view.A.Y, 190, 192), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.6f); break;
-                        case Directions.Right: spriteBatch.Draw(map.game.TextureLoader.RequestTexture("Sprites\\World\\Effects\\ViewTriangleR"), new Rectangle((int)behav.view.A.X, (int)behav.view.A.Y - 96, 190, 192), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.6f); break;
-
-                        case Directions.UpRight: spriteBatch.Draw(map.game.TextureLoader.RequestTexture("Sprites\\World\\Effects\\ViewTriangleUR"), new Rectangle((int)behav.view.A.X, (int)behav.view.A.Y - 202, 202, 202), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.6f); break;
-                        case Directions.DownRight: spriteBatch.Draw(map.game.TextureLoader.RequestTexture("Sprites\\World\\Effects\\ViewTriangleDR"), new Rectangle((int)behav.view.A.X, (int)behav.view.A.Y, 202, 202), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.6f); break;
-                        case Directions.DownLeft: spriteBatch.Draw(map.game.TextureLoader.RequestTexture("Sprites\\World\\Effects\\ViewTriangleDL"), new Rectangle((int)behav.view.A.X - 202, (int)behav.view.A.Y, 202, 202), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.6f); break;
-                        case Directions.UpLeft: spriteBatch.Draw(map.game.TextureLoader.RequestTexture("Sprites\\World\\Effects\\ViewTriangleUL"), new Rectangle((int)behav.view.A.X - 202, (int)behav.view.A.Y - 202, 202, 202), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.6f); break;
-                    }
-                }
+                var behav = (IViewTextureGetter)Behaviour;
+                spriteBatch.Draw(behav.GetViewTexture(Mover.direction), behav.GetDrawRectangle(Mover.direction), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.6f);
             }
             base.Draw(spriteBatch);
         }
@@ -191,13 +162,10 @@ namespace Magicians
         {
             Mover = new Mover(this, speed, Mover.MovementType.Directional);
         }
-        void GetMovement()
+        void GetMovement(List<Point> list)
         {
             if (Mover.Waypoints.Count == 0)
             {
-                var list = new List<Point>();
-                if (Behaviour != null)
-                    list = Behaviour.GetMovement(map);
                 if (list == null)
                     return;
                 if (list.Count == 0)
