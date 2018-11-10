@@ -137,20 +137,29 @@ namespace Magicians
 			dialogManager = new DialogueManager(game);
 			dialogManager.Load(game);
 			dialogsActive = false;
-			try
-			{
-				this.background = game.TextureLoader.RequestTexture("BattleBackgrounds\\" + battleGroup.battleBackground);
-			}
-			catch
-			{
-				this.background = game.TextureLoader.RequestTexture("BattleBackgrounds\\battleBack");
-			}
-			if (battleGroup.music != null)
+            try
+            {
+                this.background = game.TextureLoader.RequestTexture("BattleBackgrounds\\" + battleGroup.battleBackground);
+            }
+            catch
+            {
+                this.background = game.TextureLoader.RequestTexture("BattleBackgrounds\\battleBack");
+            }
+            if (battleGroup.music != null)
 			{
 				this.music = battleGroup.music;
 			}
-			else
-				music = "null";
+            else
+                music = "null";
+            if (battleGroup.encounterType == EncounterType.Boss)
+            {
+                uiButtons[4] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Battle\\BattleNoFleeIcon"), new Point(576, 20), "", game.TextureLoader.RequestTexture("UI\\Highlights\\BattleHighlight"), 0.1f);
+            }
+            else
+            {
+                uiButtons[4] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Battle\\BattleFleeIcon"), new Point(576, 20), "", game.TextureLoader.RequestTexture("UI\\Highlights\\BattleHighlight"), 0.1f);
+            }
+            Load(game.Content, game.TextureLoader);
 			ReturnMusic = game.ReturnMusic;
 			IModifyEffect[] mods = new IModifyEffect[1];
 			mods[0] = new DisableBattler();
@@ -228,38 +237,7 @@ namespace Magicians
 					}
 				}
 			}
-			uiButtons[0] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Battle\\BattleSpellIcon"), new Point(16, 20), "", game.TextureLoader.RequestTexture("UI\\Highlights\\BattleHighlight"), 0.1f);
-			if (canUseItems)
-				uiButtons[1] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Battle\\BattleItemIcon"), new Point(156, 20), "", game.TextureLoader.RequestTexture("UI\\Highlights\\BattleHighlight"), 0.1f);
-			else
-				uiButtons[1] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Battle\\BattleNoItemsIcon"), new Point(156, 20), "", game.TextureLoader.RequestTexture("UI\\Highlights\\BattleHighlight"), 0.1f);
-			uiButtons[2] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Battle\\BattleExamineIcon"), new Point(296, 20), "", game.TextureLoader.RequestTexture("UI\\Highlights\\BattleHighlight"), 0.1f);
-			uiButtons[3] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Battle\\BattleWaitIcon"), new Point(436, 20), "", game.TextureLoader.RequestTexture("UI\\Highlights\\BattleHighlight"), 0.1f);
-			if (battleGroup.encounterType == EncounterType.Boss)
-			{
-				uiButtons[4] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Battle\\BattleNoFleeIcon"), new Point(576, 20), "", game.TextureLoader.RequestTexture("UI\\Highlights\\BattleHighlight"), 0.1f);
-			}
-			else
-			{
-				uiButtons[4] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Battle\\BattleFleeIcon"), new Point(576, 20), "", game.TextureLoader.RequestTexture("UI\\Highlights\\BattleHighlight"), 0.1f);
-			}
-			spellbookUI = game.TextureLoader.RequestTexture("UI\\Battle\\BattleSpellbook");
-			inventoryUI = game.TextureLoader.RequestTexture("UI\\Battle\\BattleInventory");
-			examineWindow = game.TextureLoader.RequestTexture("UI\\Battle\\BattleExamineWindow");
-			ResultsWindow = game.TextureLoader.RequestTexture("UI\\Battle\\BattleResultsWindow");
-			HealthBar = game.TextureLoader.RequestTexture("UI\\Battle\\Health");
-			ManaBar = game.TextureLoader.RequestTexture("UI\\Battle\\Mana");
-			RegularStatsBar = game.TextureLoader.RequestTexture("UI\\Battle\\RegularHealthBar");
-			BossStatsBar = game.TextureLoader.RequestTexture("UI\\Battle\\BossHealthBar");
-			experienceIcon = game.TextureLoader.RequestTexture("UI\\Common\\experience");
-			goldIcon = game.TextureLoader.RequestTexture("UI\\Common\\money");
-			backgroundBorder = game.TextureLoader.RequestTexture("UI\\Battle\\Border");
-			resultsBox = game.TextureLoader.RequestTexture("UI\\Battle\\BattleResultsBox");
-			battleTextBack = game.TextureLoader.RequestTexture("UI\\Battle\\BattleTextBack");
-			battleTextBackWide = game.TextureLoader.RequestTexture("UI\\Battle\\BattleTextBackWide");
-			battlerArrow = new Sprite(game.TextureLoader, "UI\\Battle\\ActiveBattlerArrow", new Point(-80, -80), 0.9f, new Vector2(20, 50).ToPoint(), Sprite.OriginType.TopLeft);
-			battlerArrow.SetInterval(20);
-			battlerArrow.ChangeDepth(0.31f);
+
 			if (battleGroup.encounterType == EncounterType.Boss)
 				FleeChance = -1;
 			currentState = State.Intro;
@@ -315,8 +293,31 @@ namespace Magicians
 		}
 		public void Load(ContentManager content, TextureLoader TextureLoader)
 		{
-			//TODO: move some of the stuff in the constructor to this method where appropriate
-		}
+            uiButtons[0] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Battle\\BattleSpellIcon"), new Point(16, 20), "", game.TextureLoader.RequestTexture("UI\\Highlights\\BattleHighlight"), 0.1f);
+            if (canUseItems)
+                uiButtons[1] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Battle\\BattleItemIcon"), new Point(156, 20), "", game.TextureLoader.RequestTexture("UI\\Highlights\\BattleHighlight"), 0.1f);
+            else
+                uiButtons[1] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Battle\\BattleNoItemsIcon"), new Point(156, 20), "", game.TextureLoader.RequestTexture("UI\\Highlights\\BattleHighlight"), 0.1f);
+            uiButtons[2] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Battle\\BattleExamineIcon"), new Point(296, 20), "", game.TextureLoader.RequestTexture("UI\\Highlights\\BattleHighlight"), 0.1f);
+            uiButtons[3] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Battle\\BattleWaitIcon"), new Point(436, 20), "", game.TextureLoader.RequestTexture("UI\\Highlights\\BattleHighlight"), 0.1f);
+            spellbookUI = game.TextureLoader.RequestTexture("UI\\Battle\\BattleSpellbook");
+            inventoryUI = game.TextureLoader.RequestTexture("UI\\Battle\\BattleInventory");
+            examineWindow = game.TextureLoader.RequestTexture("UI\\Battle\\BattleExamineWindow");
+            ResultsWindow = game.TextureLoader.RequestTexture("UI\\Battle\\BattleResultsWindow");
+            HealthBar = game.TextureLoader.RequestTexture("UI\\Battle\\Health");
+            ManaBar = game.TextureLoader.RequestTexture("UI\\Battle\\Mana");
+            RegularStatsBar = game.TextureLoader.RequestTexture("UI\\Battle\\RegularHealthBar");
+            BossStatsBar = game.TextureLoader.RequestTexture("UI\\Battle\\BossHealthBar");
+            experienceIcon = game.TextureLoader.RequestTexture("UI\\Common\\experience");
+            goldIcon = game.TextureLoader.RequestTexture("UI\\Common\\money");
+            backgroundBorder = game.TextureLoader.RequestTexture("UI\\Battle\\Border");
+            resultsBox = game.TextureLoader.RequestTexture("UI\\Battle\\BattleResultsBox");
+            battleTextBack = game.TextureLoader.RequestTexture("UI\\Battle\\BattleTextBack");
+            battleTextBackWide = game.TextureLoader.RequestTexture("UI\\Battle\\BattleTextBackWide");
+            battlerArrow = new Sprite(game.TextureLoader, "UI\\Battle\\ActiveBattlerArrow", new Point(-80, -80), 0.9f, new Vector2(20, 50).ToPoint(), Sprite.OriginType.TopLeft);
+            battlerArrow.SetInterval(20);
+            battlerArrow.ChangeDepth(0.31f);
+        }
 		public void SetTargets(List<Battler> targets)
 		{
 			this.targets = targets;
@@ -1411,7 +1412,7 @@ namespace Magicians
 										{
 											actionEffects.Add(new SpriteEffect(game.TextureLoader, activeBattler.Sprite.DrawnPosition, turnAction.actionSpriteSizes[1], "Sprites\\BattleEffects\\" + turnAction.actionSpriteEffects[1], false));
 											actionEffects[actionEffects.Count - 1].sprite.SetScale(turnAction.actionSpriteSizes[1].X, turnAction.actionSpriteSizes[1].Y);
-											actionEffects[actionEffects.Count - 1].SetMovement(new Mover(null, 28, Mover.MovementType.Linear), targets[i].Sprite.DrawnPosition);
+											actionEffects[actionEffects.Count - 1].SetMovement(new Mover(28, Mover.MovementType.Linear), targets[i].Sprite.DrawnPosition);
 											actionEffects[actionEffects.Count - 1].sprite.ChangeRotation(GetRadians(activeBattler.Sprite.DrawnPosition, targets[i].Sprite.DrawnPosition));
 										}
 										break;
@@ -1467,7 +1468,7 @@ namespace Magicians
 											targetVec.Y = -targetVec.Y;
 										targetVec.X += targets[i].Sprite.DrawnPosition.X;
 										targetVec.Y += targets[i].Sprite.DrawnPosition.Y;
-										actionEffects[actionEffects.Count - 1].SetMovement(new Mover(null, 28, Mover.MovementType.Linear), targetVec);
+										actionEffects[actionEffects.Count - 1].SetMovement(new Mover(28, Mover.MovementType.Linear), targetVec);
 										actionEffects[actionEffects.Count - 1].sprite.ChangeRotation(GetRadians(targets[i].Sprite.DrawnPosition, targetVec));
 									}
 								}

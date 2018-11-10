@@ -407,7 +407,7 @@ namespace Magicians
                 Sprite.SetInterval(140);
             }
             Sprite.ChangeTexture2D(Animations[BattlerAnimType.Idle]);         
-            Bounds = new Bounds(null, new Point(Sprite.DrawnPosition.X - (Sprite.SpriteSize.X / 2), Sprite.DrawnPosition.Y - (Sprite.SpriteSize.Y / 2)), Sprite.SpriteSize.X, Sprite.SpriteSize.Y, true, new Point(0));
+            Bounds = new Bounds(new Point(Sprite.DrawnPosition.X - (Sprite.SpriteSize.X / 2), Sprite.DrawnPosition.Y - (Sprite.SpriteSize.Y / 2)), Sprite.SpriteSize.X, Sprite.SpriteSize.Y, true, new Point(0));
             Sprite.ChangeLooping(true);
         }
 
