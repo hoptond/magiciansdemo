@@ -63,6 +63,7 @@ namespace Magicians
                 ChangeWalkerSpriteTexture();
 
             Mover.Update(gameTime);
+            Position = Mover.GetDirectionalMovement(Position);
             ChangeWalkerSpriteTexture();
             if (Mover.Target != Point.Zero)
             {
@@ -160,7 +161,7 @@ namespace Magicians
         }
         public void SetMover(int speed)
         {
-            Mover = new Mover(this, speed, Mover.MovementType.Directional);
+            Mover = new Mover(speed, Mover.MovementType.Directional);
         }
         void GetMovement(List<Point> list)
         {

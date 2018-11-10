@@ -7,7 +7,6 @@ namespace Magicians
 {
 	class Bounds
 	{
-		Entity Entity;
 		public Point Position { get; private set; }
 		public Point offset { get; private set; }
 		public Rectangle Box { get; private set; }
@@ -15,15 +14,14 @@ namespace Magicians
 		int height;
 		public bool CanPassThrough { get; private set; }
 		public bool CanFlyOver { get; private set; }
-		public void Update()
+		public void Update(Point pos)
 		{
-			Position = new Point(Entity.Position.X + offset.X, Entity.Position.Y + offset.Y);
+			Position = new Point(pos.X + offset.X, pos.Y + offset.Y);
 			Box = new Rectangle(Position.X, Position.Y, width, height);
 		}
-		public Bounds(Entity ent, Point pos, int w, int h, bool b, Point offs)
+		public Bounds(Point pos, int w, int h, bool b, Point offs)
 		{
 			CanFlyOver = false;
-			Entity = ent;
 			width = w;
 			height = h;
 			CanPassThrough = b;

@@ -40,7 +40,7 @@ namespace Magicians
             if (EntBehaviour != null)
                 EntBehaviour.Update(gameTime);
             if (Bounds != null)
-                Bounds.Update();
+                Bounds.Update(Position);
             if (Sprite != null)
             {
                 Sprite.Update(gameTime);
@@ -60,7 +60,7 @@ namespace Magicians
         }
         public void SetBounds(Point size, Point offset, bool PassThrough)
         {
-            Bounds = new Bounds(this, this.Position, size.X, size.Y, PassThrough, offset);
+            Bounds = new Bounds(this.Position, size.X, size.Y, PassThrough, offset);
         }
         public void AddEvents(string key, List<IEvent> events)
         {

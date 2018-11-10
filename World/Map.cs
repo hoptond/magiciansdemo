@@ -1745,7 +1745,7 @@ namespace Magicians
 							{
 								var wp = walker.Mover.ReturnDirectionPoint();
 								walker.Mover.SetTarget(Point.Zero);
-								walker.Bounds.Update();
+                                walker.Bounds.Update(walker.Position);
 								walker.Sprite.ResetTimer();
 								var rw = (RandomWalk)walker.Behaviour;
 								rw.findNewPosition = false;
@@ -1755,7 +1755,7 @@ namespace Magicians
 					}
 					var p = ent.Mover.ReturnDirectionPoint();
 					ent.ChangePosition(new Point(ent.Position.X + -p.X, ent.Position.Y + -p.Y));
-					ent.Bounds.Update();
+					ent.Bounds.Update(ent.Position);
 					if (ent.Behaviour is RandomWalk)
 					{
 						var rWalk = (RandomWalk)ent.Behaviour;
@@ -1789,7 +1789,7 @@ namespace Magicians
 					ent.Sprite.CurrentFrame = 0;
 					ent.Sprite.ResetTimer();
 					ent.ChangeWalkerState(WalkerState.Standing);
-					ent.Bounds.Update();
+					ent.Bounds.Update(ent.Position);
 					ent.Mover.Waypoints.Clear();
 					ent.Mover.SetTarget(Point.Zero);
 					blockingLine = line;
@@ -1927,7 +1927,7 @@ namespace Magicians
 							foreach (XElement door in doors)
 							{
 								Entities.Add(new Entity(findNewId(), "DOOR", new Point((int)door.Attribute("x"), (int)door.Attribute("y"))));
-								Entities[Entities.Count - 1].Bounds = new Magicians.Bounds(Entities[Entities.Count - 1], Entities[Entities.Count - 1].Position, (int)door.Attribute("width"), (int)door.Attribute("height"), true, Point.Zero);
+								Entities[Entities.Count - 1].Bounds = new Magicians.Bounds(Entities[Entities.Count - 1].Position, (int)door.Attribute("width"), (int)door.Attribute("height"), true, Point.Zero);
 								Entity ent = Entities[Entities.Count - 1];
 								var events = new List<IEvent>();
 								var doorProperties = door.Element("properties").Elements("property");
@@ -1970,7 +1970,7 @@ namespace Magicians
 			{
 				if (Entities[i].Bounds != null && (Entities[i] is Walker) == false && (Entities[i].EntBehaviour is PushableEntity) == false)
 				{
-					Entities[i].Bounds.Update();
+                    Entities[i].Bounds.Update(Entities[i].Position);
 					if (Entities[i].Bounds.CanPassThrough == false)
 					{
 						if (Entities[i].Bounds.Box.Width > 0)
@@ -2227,17 +2227,17 @@ namespace Magicians
 							walker.Behaviour = new EnemyBehaviour(this, walker, 200, behavs);
 							entityNames.Add(name);
 							Enemies.Add(walker);
-							walker.Bounds.Update();
+							walker.Bounds.Update(walker.Position);
 							if (walker.Position == Point.Zero)
 							{
 								walker.ChangePosition(new Point(game.randomNumber.Next(spawn.SpawnBounds.Left, spawn.SpawnBounds.Right) + xOffset, game.randomNumber.Next(spawn.SpawnBounds.Top, spawn.SpawnBounds.Bottom) + yOffset));
-								walker.Bounds.Update();
+								walker.Bounds.Update(walker.Position);
 								var behav = (EnemyBehaviour)walker.Behaviour;
 								behav.UpdateOriginalPosition();
 								while (!isSpaceFree(walker, walker.Bounds.Box))
 								{
 									walker.ChangePosition(new Point(game.randomNumber.Next(spawn.SpawnBounds.Left, spawn.SpawnBounds.Right) + xOffset, game.randomNumber.Next(spawn.SpawnBounds.Top, spawn.SpawnBounds.Bottom) + yOffset));
-									walker.Bounds.Update();
+									walker.Bounds.Update(walker.Position);
 									behav.UpdateOriginalPosition();
 								}
 							}

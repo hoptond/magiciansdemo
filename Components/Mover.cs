@@ -8,7 +8,6 @@ namespace Magicians
 {
 	class Mover
 	{
-		Entity Entity;
 		public Vector2 Movement;
 		public int Speed { get; private set; }
 		public enum MovementType { Directional, Linear }
@@ -38,70 +37,74 @@ namespace Magicians
 			}
 			return false;
 		}
-		public void Update(GameTime gameTime)
-		{
-			if (turnInterval > 0)
-			{
-				if (turnTimer >= 0)
-				{
-					turnTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-					if (turnTimer <= 0)
-					{
-						turnTimer = 0;
-						canTurn = true;
-					}
-				}
-			}
-			if (this.Target != Point.Zero)
-			{
-				if (this.MoverType == MovementType.Directional)
-				{
-					if ((int)Movement.X != 0)
-					{
-						for (int i = 0; i != (int)Movement.X;)
-						{
-							if (Movement.X < 0)
-							{
-								Entity.ChangePosition(new Point(Entity.Position.X - 1, Entity.Position.Y));
-								i--;
-							}
-							else
-							{
-								Entity.ChangePosition(new Point(Entity.Position.X + 1, Entity.Position.Y));
-								i++;
-							}
-							if (Entity.Position.X == Target.X)
-							{
-								Movement = new Vector2(0, Movement.Y);
-								break;
-							}
-						}
-					}
-					if ((int)Movement.Y != 0)
-					{
-						for (int i = 0; i != (int)Movement.Y;)
-						{
-							if (Movement.Y < 0)
-							{
-								Entity.ChangePosition(new Point(Entity.Position.X, Entity.Position.Y - 1));
-								i--;
-							}
-							else
-							{
-								Entity.ChangePosition(new Point(Entity.Position.X, Entity.Position.Y + 1));
-								i++;
-							}
-							if (Entity.Position.Y == Target.Y)
-							{
-								Movement = new Vector2(Movement.X, 0);
-								break;
-							}
-						}
-					}
-				}
-			}
-		}
-		public Vector2 ReturnLinearMovement(Point position)
+        public void Update(GameTime gameTime)
+        {
+            if (turnInterval > 0)
+            {
+                if (turnTimer >= 0)
+                {
+                    turnTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    if (turnTimer <= 0)
+                    {
+                        turnTimer = 0;
+                        canTurn = true;
+                    }
+                }
+            }
+        }
+        public Point GetDirectionalMovement(Point position)
+        {
+            if (this.Target != Point.Zero)
+            {
+                if (this.MoverType == MovementType.Directional)
+                {
+                    if ((int)Movement.X != 0)
+                    {
+                        for (int i = 0; i != (int)Movement.X;)
+                        {
+                            if (Movement.X < 0)
+                            {
+                                position = new Point(position.X - 1, position.Y);
+                                i--;
+                            }
+                            else
+                            {
+                                position = new Point(position.X + 1, position.Y);
+                                i++;
+                            }
+                            if (position.X == Target.X)
+                            {
+                                Movement = new Vector2(0, Movement.Y);
+                                break;
+                            }
+                        }
+                    }
+                    if ((int)Movement.Y != 0)
+                    {
+                        for (int i = 0; i != (int)Movement.Y;)
+                        {
+                            if (Movement.Y < 0)
+                            {
+                                position = new Point(position.X, position.Y - 1);
+                                i--;
+                            }
+                            else
+                            {
+                                position = new Point(position.X, position.Y + 1);
+                                i++;
+                            }
+                            if (position.Y == Target.Y)
+                            {
+                                Movement = new Vector2(Movement.X, 0);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            return position;
+        }
+        public Vector2 GetLinearMovement(Point position)
 		{
 			Vector2 movement = (Target.ToVector2() - position.ToVector2());
 			if (movement.Length() < Speed)
@@ -116,9 +119,8 @@ namespace Magicians
 			movement.Y = (float)Math.Round(movement.Y, 0);
 			return movement;
 		}
-		public Mover(Entity ent, int sp, MovementType movtype)
+		public Mover(int sp, MovementType movtype)
 		{
-			Entity = ent;
 			Speed = sp;
 			MoverType = movtype;
 			Target = Point.Zero;
