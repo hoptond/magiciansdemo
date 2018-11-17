@@ -231,10 +231,10 @@ namespace Magicians
             {
                 for (int i = 0; i < g.party.PlayerCharacters[0].Spells.Count; i++)
                 {
-                    if (g.party.PlayerCharacters[0].Spells[i].usage == Usage.Battle || g.party.PlayerCharacters[0].Spells[i].usage == Usage.BothSame)
+                    if (g.party.PlayerCharacters[0].Spells[i].Usage == Usage.Battle || g.party.PlayerCharacters[0].Spells[i].Usage == Usage.BothSame)
                     {
-                        if (g.party.PlayerCharacters[0].Spells[i].battleAction.tag != "")
-                            battleActions.Add(g.party.PlayerCharacters[0].Spells[i].battleAction);
+                        if (g.party.PlayerCharacters[0].Spells[i].BattleAction.tag != "")
+                           battleActions.Add(g.party.PlayerCharacters[0].Spells[i].BattleAction);
                     }
                 }
                 for (int i = 0; i < g.party.PlayerCharacters[0].Inventory.Count; i++)

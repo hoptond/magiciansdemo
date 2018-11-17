@@ -357,11 +357,11 @@ namespace Magicians
                         Text = Text.Remove(i, 4);
                         try
                         {
-                            Text = Text.Insert(i, chara.Spells[number].displayName);
+                            Text = Text.Insert(i, chara.Spells[number].DisplayName);
                         }
                         catch
                         {
-                            Text = Text.Insert(i, chara.Spells[chara.Spells.Count - 1].displayName);
+                            Text = Text.Insert(i, chara.Spells[chara.Spells.Count - 1].DisplayName);
                         }
                     }
                     if (Text.Substring(i, 4) == "item")

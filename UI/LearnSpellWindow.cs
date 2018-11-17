@@ -44,7 +44,7 @@ namespace Magicians
 					}
 				}
 			}
-			learnedSpell = game.Spells.Find(l => l.internalName == questStats.learntSpellString);
+			learnedSpell = game.Spells.Find(l => l.InternalName == questStats.learntSpellString);
 			if (!learnableSpells.Contains(learnedSpell))
 			{
 				questStats.learnSpellProgress = 1;
@@ -68,7 +68,7 @@ namespace Magicians
 					questStats.learnSpellProgress = 1;
 					var events = new List<IEvent>();
 					events.Add(new BeginEvent(game, map));
-					events.Add(new PlayDialogue(game, (Map)game.Scene, game.LoadString("Common", "LearnSpell3") + learnedSpell.displayName + "!"));
+					events.Add(new PlayDialogue(game, (Map)game.Scene, game.LoadString("Common", "LearnSpell3") + learnedSpell.DisplayName + "!"));
 					events.Add(new EndEvent(game, map.EventManager, map));
 					map.EventManager.SetEvents(events, true);
 					game.CloseUIWindow();
@@ -96,10 +96,10 @@ namespace Magicians
 				{
 					if (learnedSpell == null && learnableSpells[i].ReturnRequiredLevel(pc.Arcana) <= pc.Level)
 					{
-						questStats.learntSpellString = learnableSpells[i].internalName;
+						questStats.learntSpellString = learnableSpells[i].InternalName;
 						questStats.learnSpellProgress = 1;
 						newSpellIndex = i;
-						learnedSpell = game.Spells.Find(l => l.internalName == questStats.learntSpellString);
+						learnedSpell = game.Spells.Find(l => l.InternalName == questStats.learntSpellString);
 					}
 					else
 					{
@@ -133,7 +133,7 @@ namespace Magicians
 						return;
 					}
 					confirmOverwriteLearnedSpell = false;
-					questStats.learntSpellString = learnableSpells[newSpellIndex].internalName;
+					questStats.learntSpellString = learnableSpells[newSpellIndex].InternalName;
 					learnedSpell = learnableSpells[newSpellIndex];
 					questStats.learnSpellProgress = 1;
 				}
@@ -149,7 +149,7 @@ namespace Magicians
 		public void LearnSpell()
 		{
 			bool hasNewEvents = false;
-			int value = 40 - learnedSpell.level;
+			int value = 40 - learnedSpell.Level;
 			value += pc.Spells.Count;
 			string[] flags = new string[5];
 			flags[0] = "bPlayerHasNoKnowledge";
@@ -192,7 +192,7 @@ namespace Magicians
 			{
 				value = value * 2;
 			}
-			questStats.learnSpellProgress += value - (MathHelper.Max(learnedSpell.level, pc.Level) - MathHelper.Min(pc.Level, learnedSpell.level));
+			questStats.learnSpellProgress += value - (MathHelper.Max(learnedSpell.Level, pc.Level) - MathHelper.Min(pc.Level, learnedSpell.Level));
 			if (questStats.learnSpellProgress >= 100)
 			{
 				if (pc.Spells.Count == 8)
@@ -207,7 +207,7 @@ namespace Magicians
 				{
 					var events = new List<IEvent>();
 					events.Add(new BeginEvent(game, map));
-					events.Add(new PlayDialogue(game, (Map)game.Scene, game.LoadString("Common", "LearnSpell3") + learnedSpell.displayName + "!"));
+					events.Add(new PlayDialogue(game, (Map)game.Scene, game.LoadString("Common", "LearnSpell3") + learnedSpell.DisplayName + "!"));
 					events.Add(new EndEvent(game, map.EventManager, map));
 					map.EventManager.SetEvents(events, true);
 					pc.Spells.Add(learnedSpell);
@@ -221,7 +221,7 @@ namespace Magicians
 			{
 				var events = new List<IEvent>();
 				events.Add(new BeginEvent(game, map));
-				events.Add(new PlayDialogue(game, map, game.LoadString("Common", "LearnSpell1") + learnedSpell.displayName + game.LoadString("Common", "LearnSpell2")));
+				events.Add(new PlayDialogue(game, map, game.LoadString("Common", "LearnSpell1") + learnedSpell.DisplayName + game.LoadString("Common", "LearnSpell2")));
 				events.Add(new EndEvent(game, map.EventManager, map));
 				map.EventManager.SetEvents(events, true);
 				hasNewEvents = true;
@@ -251,11 +251,11 @@ namespace Magicians
 					if (game.Input.IsMouseOver(new Rectangle((int)drawVector.X, (int)drawVector.Y, 64, 63)))
 					{
 						var vec = new Vector2(TopLeft.X + 483, TopLeft.Y + 40);
-						spriteBatch.DrawString(game.mediumFont, learnableSpells[i].displayName, vec, Color.Black, 0, TextMethods.CenterText(game.mediumFont, learnableSpells[i].displayName), 1, SpriteEffects.None, 0.18f);
+						spriteBatch.DrawString(game.mediumFont, learnableSpells[i].DisplayName, vec, Color.Black, 0, TextMethods.CenterText(game.mediumFont, learnableSpells[i].DisplayName), 1, SpriteEffects.None, 0.18f);
 						vec = new Vector2(TopLeft.X + 483, TopLeft.Y + 90);
 						spriteBatch.Draw(learnableSpells[i].SpellIcon, new Rectangle((int)vec.X, (int)vec.Y, 64, 64), null, Color.White, 0, new Vector2(32, 32), SpriteEffects.None, 0.18f);
 						vec = new Vector2(TopLeft.X + 380, TopLeft.Y + 128);
-						spriteBatch.DrawString(game.smallFont, TextMethods.WrapText(game.smallFont, learnableSpells[i].description, 200), vec, Color.Black, 0, Vector2.Zero, 1, SpriteEffects.None, 0.18f);
+						spriteBatch.DrawString(game.smallFont, TextMethods.WrapText(game.smallFont, learnableSpells[i].Description, 200), vec, Color.Black, 0, Vector2.Zero, 1, SpriteEffects.None, 0.18f);
 						vec = new Vector2(TopLeft.X + 380, TopLeft.Y + 380);
 						if (pc.Level >= learnableSpells[i].ReturnRequiredLevel(pc.Arcana))
 						{

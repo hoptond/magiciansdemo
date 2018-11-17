@@ -168,7 +168,7 @@ namespace Magicians
 			var spells = element.Element("Spells").Descendants("Spell").ToList();
 			for (int i = 0; i < spells.Count; i++)
 			{
-				Spells.Add(game.Spells.Find(p => p.internalName == spells[i].Value));
+				Spells.Add(game.Spells.Find(p => p.InternalName == spells[i].Value));
 			}
 			Equips = new EquippableItem[4];
 			var equipEls = element.Element("Equips").Descendants("Equip").ToArray();
@@ -187,7 +187,7 @@ namespace Magicians
 			{
 				var args = learnSpells[i].Value.Split('|');
 				LearnableSpellLevels.Add(int.Parse(args[0]));
-				LearnableSpells.Add(game.Spells.Find(p => p.internalName == args[1]));
+				LearnableSpells.Add(game.Spells.Find(p => p.InternalName == args[1]));
 			}
 
 
@@ -242,7 +242,7 @@ namespace Magicians
 			{
 				for (int x = 0; x < game.Spells.Count; x++)
 				{
-					if (game.Spells[x].internalName == charsave.Spells[i])
+					if (game.Spells[x].InternalName == charsave.Spells[i])
 					{
 						LearnSpell(game.Spells[x]);
 						break;
@@ -269,7 +269,7 @@ namespace Magicians
 			{
 				foreach (string s in charsave.LearnSpells)
 				{
-					var spell = game.Spells.Find(spl => spl.internalName == s);
+					var spell = game.Spells.Find(spl => spl.InternalName == s);
 					if (spell != null)
 					{
 						LearnableSpells.Add(spell);

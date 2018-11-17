@@ -41,14 +41,14 @@ namespace Magicians
 					var chara = nameWindow.GetPlayerCharacter();
 					if (chara != null)
 					{
-						for (int b = 0; b < usedSpell.battleAction.actionEffects.Count; b++)
+						for (int b = 0; b < usedSpell.BattleAction.actionEffects.Count; b++)
 						{
-							usedSpell.battleAction.actionEffects[b].DoAction(null, pc.BattleStats, chara.BattleStats);
+							usedSpell.BattleAction.actionEffects[b].DoAction(null, pc.BattleStats, chara.BattleStats);
 						}
-						if (usedSpell.battleAction.sounds.Length == 3)
-							game.Audio.PlaySound(usedSpell.battleAction.sounds[2], true);
+						if (usedSpell.BattleAction.sounds.Length == 3)
+							game.Audio.PlaySound(usedSpell.BattleAction.sounds[2], true);
 						else
-							game.Audio.PlaySound(usedSpell.battleAction.sounds[1], true);
+							game.Audio.PlaySound(usedSpell.BattleAction.sounds[1], true);
 						pc.BattleStats.SP -= usedSpell.ManaCost(pc);
 						usedSpell = null;
 						nameWindow = null;
@@ -60,25 +60,25 @@ namespace Magicians
 					usedSpell = GetSpell();
 					if (usedSpell != null)
 					{
-						if (usedSpell.usage == Usage.World || usedSpell.usage == Usage.BothAsynchrous)
+						if (usedSpell.Usage == Usage.World || usedSpell.Usage == Usage.BothAsynchrous)
 						{
 							castingSpell = true;
 						}
-						else if (usedSpell.usage == Usage.BothSame)
+						else if (usedSpell.Usage == Usage.BothSame)
 						{
-							if (usedSpell.battleAction.targetType == BattleAction.TargetType.All)
+							if (usedSpell.BattleAction.targetType == BattleAction.TargetType.All)
 							{
 								for (int i = 0; i < game.party.ActiveCharacters.Count; i++)
 								{
-									for (int b = 0; b < usedSpell.battleAction.actionEffects.Count; b++)
+									for (int b = 0; b < usedSpell.BattleAction.actionEffects.Count; b++)
 									{
-										usedSpell.battleAction.actionEffects[b].DoAction(null, pc.BattleStats, game.party.GetPlayerCharacter(game.party.ActiveCharacters[i]).BattleStats);
+										usedSpell.BattleAction.actionEffects[b].DoAction(null, pc.BattleStats, game.party.GetPlayerCharacter(game.party.ActiveCharacters[i]).BattleStats);
 									}
 								}
-								if (usedSpell.battleAction.sounds.Length == 3)
-									game.Audio.PlaySound(usedSpell.battleAction.sounds[2], true);
+								if (usedSpell.BattleAction.sounds.Length == 3)
+									game.Audio.PlaySound(usedSpell.BattleAction.sounds[2], true);
 								else
-									game.Audio.PlaySound(usedSpell.battleAction.sounds[1], true);
+									game.Audio.PlaySound(usedSpell.BattleAction.sounds[1], true);
 								pc.BattleStats.SP -= usedSpell.ManaCost(pc);
 								usedSpell = null;
 							}
@@ -91,7 +91,7 @@ namespace Magicians
 				{
 					for (int i = 0; i < spells.Length; i++)
 					{
-						if (usages.Contains(pc.Spells[i].usage))
+						if (usages.Contains(pc.Spells[i].Usage))
 						{
 							spells[i].Update(gameTime);
 						}
@@ -100,17 +100,17 @@ namespace Magicians
 			}
 			else
 			{
-				if (usedSpell.useEffect is RevealHiddenObjects)
+				if (usedSpell.UseEffect is RevealHiddenObjects)
 				{
-					usedSpell.useEffect = new RevealHiddenObjects(game, (Map)game.Scene, "");
-					usedSpell.useEffect.UseEffects();
+					usedSpell.UseEffect = new RevealHiddenObjects(game, (Map)game.Scene, "");
+					usedSpell.UseEffect.UseEffects();
 					game.CloseUIWindow();
 				}
-				if (usedSpell.useEffect is CustomEventEffect)
-					usedSpell.useEffect = new CustomEventEffect(game, (Map)game.Scene, ((CustomEventEffect)usedSpell.useEffect).eventFile);
-				if (usedSpell.useEffect is FleeDungeon)
+				if (usedSpell.UseEffect is CustomEventEffect)
+					usedSpell.UseEffect = new CustomEventEffect(game, (Map)game.Scene, ((CustomEventEffect)usedSpell.UseEffect).eventFile);
+				if (usedSpell.UseEffect is FleeDungeon)
 				{
-					usedSpell.useEffect.UseEffects();
+					usedSpell.UseEffect.UseEffects();
 					game.CloseUIWindow();
 				}
 				for (int i = 0; i < entities.Count; i++)
@@ -122,15 +122,15 @@ namespace Magicians
 					{
 						if (entities[i].HasSpellCastEvents)
 						{
-							if (usedSpell.useEffect is SpellTriggeredEvent)
+							if (usedSpell.UseEffect is SpellTriggeredEvent)
 							{
-								var ue = (SpellTriggeredEvent)usedSpell.useEffect;
-								if (entities[i].ReturnEvents(ue.spellCond) != null)
+								var ue = (SpellTriggeredEvent)usedSpell.UseEffect;
+								if (entities[i].GetEvents(ue.spellCond) != null)
 								{
 									var map = (Map)game.Scene;
 									game.CloseUIWindow();
 									map.FaceEntity((Walker)map.GetEntityFromName("ENT_" + pc.Name.ToUpperInvariant()), entities[i]);
-									map.EventManager.SetEvents(entities[i].ReturnEvents(ue.spellCond));
+									map.EventManager.SetEvents(entities[i].GetEvents(ue.spellCond));
 									map.EventManager.DoEvent();
 									pc.BattleStats.SP -= usedSpell.ManaCost(pc);
 									return;
@@ -140,31 +140,31 @@ namespace Magicians
 						if (entities[i] is Walker)
 						{
 							var walker = (Walker)entities[i];
-							if (usedSpell.useEffect is BlindEntity && walker.Behaviour is EyeRotate)
+							if (usedSpell.UseEffect is BlindEntity && walker.Behaviour is EyeRotate)
 							{
 								game.CloseUIWindow();
-								usedSpell.useEffect = new BlindEntity(game, (Map)game.Scene, walker, "ENT_" + pc.Name.ToUpper());
+								usedSpell.UseEffect = new BlindEntity(game, (Map)game.Scene, walker, "ENT_" + pc.Name.ToUpper());
 								pc.BattleStats.SP -= usedSpell.ManaCost(pc);
-								usedSpell.useEffect.UseEffects();
+								usedSpell.UseEffect.UseEffects();
 								return;
 							}
-							if (usedSpell.useEffect is AggroEffect && walker.Behaviour is EnemyBehaviour)
+							if (usedSpell.UseEffect is AggroEffect && walker.Behaviour is EnemyBehaviour)
 							{
 								game.CloseUIWindow();
-								usedSpell.useEffect = new AggroEffect(game, (Map)game.Scene, "ENT_" + pc.Name.ToUpper(), walker);
+								usedSpell.UseEffect = new AggroEffect(game, (Map)game.Scene, "ENT_" + pc.Name.ToUpper(), walker);
 								pc.BattleStats.SP -= usedSpell.ManaCost(pc);
-								usedSpell.useEffect.UseEffects();
+								usedSpell.UseEffect.UseEffects();
 								return;
 							}
 						}
 						else
 						{
-							if (usedSpell.useEffect is LightTorch && entities[i].EntBehaviour is LightableTorch)
+							if (usedSpell.UseEffect is LightTorch && entities[i].EntBehaviour is LightableTorch)
 							{
 								game.CloseUIWindow();
-								usedSpell.useEffect = new LightTorch(game, (Map)game.Scene, entities[i], "ENT_" + pc.Name.ToUpper());
+								usedSpell.UseEffect = new LightTorch(game, (Map)game.Scene, entities[i], "ENT_" + pc.Name.ToUpper());
 								pc.BattleStats.SP -= usedSpell.ManaCost(pc);
-								usedSpell.useEffect.UseEffects();
+								usedSpell.UseEffect.UseEffects();
 								return;
 							}
 						}
@@ -187,8 +187,8 @@ namespace Magicians
 				for (int i = 0; i < spells.Length; i++)
 				{
 					spells[i].Draw(spriteBatch);
-					spriteBatch.DrawString(smallFont, pc.Spells[i].displayName, new Vector2(spells[i].Bounds.X, spells[i].Bounds.Y - 16), Color.Black, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0.14f);
-					spriteBatch.DrawString(smallFont, TextMethods.WrapText(smallFont, pc.Spells[i].description, 182), new Vector2(spells[i].Bounds.X + 68, spells[i].Bounds.Y + 16), Color.Black, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0.14f);
+					spriteBatch.DrawString(smallFont, pc.Spells[i].DisplayName, new Vector2(spells[i].Bounds.X, spells[i].Bounds.Y - 16), Color.Black, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0.14f);
+					spriteBatch.DrawString(smallFont, TextMethods.WrapText(smallFont, pc.Spells[i].Description, 182), new Vector2(spells[i].Bounds.X + 68, spells[i].Bounds.Y + 16), Color.Black, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0.14f);
 					spriteBatch.DrawString(smallFont, "SP Cost: " + pc.Spells[i].ManaCost(pc).ToString(), new Vector2(spells[i].Bounds.X + 192, spells[i].Bounds.Y + 64), Color.Blue, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0.14f);
 				}
 			}
@@ -208,7 +208,7 @@ namespace Magicians
 				{
 					if (pc.Spells[i].ManaCost(pc) <= pc.BattleStats.SP)
 					{
-						return pc.Spells[i].battleAction;
+						return pc.Spells[i].BattleAction;
 					}
 				}
 				if (usages.Contains(Usage.Battle))
@@ -231,7 +231,7 @@ namespace Magicians
 					{
 						if (Input.IsKeyReleased(key) && pc.Spells[i].ManaCost(pc) <= pc.BattleStats.SP)
 						{
-							return pc.Spells[i].battleAction;
+							return pc.Spells[i].BattleAction;
 						}
 					}
 				}

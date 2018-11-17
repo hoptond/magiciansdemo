@@ -427,12 +427,12 @@ namespace Magicians
 			}
 			switch (pc.Arcana)
 			{
-				case (Arcana.Earth): pc.LearnSpell(game.Spells.Find(spl => spl.internalName == "spl_magicfist")); break;
-				case (Arcana.Light): pc.LearnSpell(game.Spells.Find(spl => spl.internalName == "spl_magicfist")); break;
-				case (Arcana.Fire): pc.LearnSpell(game.Spells.Find(spl => spl.internalName == "spl_firearrow")); break;
-				case (Arcana.Shadow): pc.LearnSpell(game.Spells.Find(spl => spl.internalName == "spl_darkbolt")); break;
-				case (Arcana.Water): pc.LearnSpell(game.Spells.Find(spl => spl.internalName == "spl_icebolt")); break;
-				case (Arcana.Wind): pc.LearnSpell(game.Spells.Find(spl => spl.internalName == "spl_electricvolt")); break;
+				case (Arcana.Earth): pc.LearnSpell(game.Spells.Find(spl => spl.InternalName == "spl_magicfist")); break;
+				case (Arcana.Light): pc.LearnSpell(game.Spells.Find(spl => spl.InternalName == "spl_magicfist")); break;
+				case (Arcana.Fire): pc.LearnSpell(game.Spells.Find(spl => spl.InternalName == "spl_firearrow")); break;
+				case (Arcana.Shadow): pc.LearnSpell(game.Spells.Find(spl => spl.InternalName == "spl_darkbolt")); break;
+				case (Arcana.Water): pc.LearnSpell(game.Spells.Find(spl => spl.InternalName == "spl_icebolt")); break;
+				case (Arcana.Wind): pc.LearnSpell(game.Spells.Find(spl => spl.InternalName == "spl_electricvolt")); break;
 			}
 			game.party.PlayerCharacters[0] = pc;
 		}

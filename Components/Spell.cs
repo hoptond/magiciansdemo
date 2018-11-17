@@ -10,52 +10,49 @@ namespace Magicians
 {
     class Spell
     {
-        public string displayName { get; private set; }//the name of the spell.
-        public string internalName { get; private set; }
-        public string description { get; private set; } //the description when viewed from the spellbook
+        public string DisplayName { get; private set; }//the name of the spell.
+        public string InternalName { get; private set; }
+        public string Description { get; private set; } //the description when viewed from the spellbook
         int manaCost;
-        public int level; //the level at which this spell can be learned.
+        public int Level; //the level at which this spell can be learned.
         string tex2dpath;
         public Texture2D SpellIcon { get; private set; } //the icon that will appear the UI
         public Arcana Arcana { get; private set; }
-        public BattleAction battleAction;
-        public IUseEffect useEffect;
-        public Usage usage { get; private set; }
+        public BattleAction BattleAction;
+        public IUseEffect UseEffect;
+        public Usage Usage { get; private set; }
 
         public Spell(string n, string i, string d,string texpath, Arcana a, Usage u, int l,int m)
         {
-            displayName = n;
-            internalName = i;
-            description = d;
+            DisplayName = n;
+            InternalName = i;
+            Description = d;
             Arcana = a;
-            level = l;
+            Level = l;
             manaCost = m;
-            usage = u;
+            Usage = u;
             tex2dpath = texpath;
-
         }
 
-        public Spell()
-        {
-
-        }
         public void SetBattleAction(BattleAction ba)
         {
-            battleAction = ba;
-            manaCost = battleAction.ManaCost;
+            BattleAction = ba;
+            manaCost = BattleAction.ManaCost;
         }
         public void LoadIcon(Game game)
         {
             SpellIcon = game.TextureLoader.RequestTexture("UI\\Icons\\Spells\\" + tex2dpath);
         }
+
         public int ReturnRequiredLevel(Arcana a)
         {
             if (Arcana == a)
-                return level - 3;
+                return Level - 3;
             if ((int)Arcana == ((int)a - 3) || (int)Arcana == ((int)a - 3))
-                return level + 1;
-            return level;
+                return Level + 1;
+            return Level;
         }
+
         public int ManaCost(PlayerCharacter pc)
         {
             float value = manaCost;

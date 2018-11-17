@@ -170,7 +170,7 @@ namespace Magicians
 			ShadowBoost = new Modifier("mod_shadowboost", "placeholder", -1, false, true);
 			ShadowBoost.effects = mods.ToList();
 			ShadowBoost.LoadIcon(game);
-			ZeroManaSpell = game.Spells.Find(spl => spl.internalName == "spl_sparks");
+			ZeroManaSpell = game.Spells.Find(spl => spl.InternalName == "spl_sparks");
 			party = p;
 			BaseOffset = new Point((game.GetScreenWidth() / 2) - 400, (game.GetScreenHeight() / 2) - 300);
 			////Create the player battlers
@@ -1039,7 +1039,7 @@ namespace Magicians
 									turnAction = null; uiState = UIState.Spellbook; spellBook = new Spellbook(game, spellbookUI, playerCharacters[activePlayerIndex], usages);
 									if (playerCharacters[activePlayerIndex].BattleStats.SP < spellBook.ReturnLowestManaCost())
 									{
-										turnAction = ZeroManaSpell.battleAction;
+										turnAction = ZeroManaSpell.BattleAction;
 										uiState = UIState.ChooseTarget;
 										spellBook = null;
 										timer = 0;
@@ -1114,7 +1114,7 @@ namespace Magicians
 								var spell = spellBook.GetSpell();
 								if (spell != null)
 								{
-									if (spell.usage != Usage.World)
+									if (spell.Usage != Usage.World)
 										currentActionUsedMana = spell.ManaCost(playerCharacters[activePlayerIndex]);
 									turnAction = spellBook.GetSpellBattleAction();
 								}
@@ -1530,7 +1530,7 @@ namespace Magicians
 						{
 							if (playerCharacters[i].LevelUp(game))
 							{
-								Dialogs.Add(new PlayDialogue(game, null, playerCharacters[i].Name + strings[2] + playerCharacters[i].Spells[playerCharacters[i].Spells.Count - 1].displayName + "!"));
+								Dialogs.Add(new PlayDialogue(game, null, playerCharacters[i].Name + strings[2] + playerCharacters[i].Spells[playerCharacters[i].Spells.Count - 1].DisplayName + "!"));
 							}
 							levelUps[i] += 1;
 						}
