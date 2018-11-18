@@ -286,7 +286,7 @@ namespace Magicians
 		}
 		public OptionsMenu(Game g)
 			: base(g.Input, g.TextureLoader.RequestTexture("UI\\MainMenu\\Options"), 0.19f, new Point(g.GetScreenWidth() / 2 - 300, g.GetScreenHeight() / 2 - 245),
-				   new Button(g, g.Input, g.TextureLoader.RequestTexture("UI\\Common\\BlankExitButton"), new Point((g.GetScreenWidth() / 2 - 300) + 531, (g.GetScreenHeight() / 2 - 300) + 497), "", g.TextureLoader.RequestTexture("UI\\Highlights\\ExitHighlight"), 0.01f))
+				   new Button(g.Audio, g.Input, g.TextureLoader.RequestTexture("UI\\Common\\BlankExitButton"), new Point((g.GetScreenWidth() / 2 - 300) + 531, (g.GetScreenHeight() / 2 - 300) + 497), "", g.TextureLoader.RequestTexture("UI\\Highlights\\ExitHighlight"), 0.01f))
 		{
 			game = g;
 			newSettings = (OptionsSettings)game.settings.Clone();
@@ -297,7 +297,7 @@ namespace Magicians
 			muted = game.TextureLoader.RequestTexture("UI\\MainMenu\\muted");
 			inputActive = game.TextureLoader.RequestTexture("UI\\MainMenu\\inputActive");
 			var baseOffset = new Vector2(TopLeft.X, TopLeft.Y);
-			ConfirmChangesButton = new Button(g, g.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankExitButton"), new Point((g.GetScreenWidth() / 2 - 300) + 6, (g.GetScreenHeight() / 2 - 300) + 497), "", g.TextureLoader.RequestTexture("UI\\Highlights\\ExitHighlightMirrored"), 0.01f);
+			ConfirmChangesButton = new Button(g.Audio, g.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankExitButton"), new Point((g.GetScreenWidth() / 2 - 300) + 6, (g.GetScreenHeight() / 2 - 300) + 497), "", g.TextureLoader.RequestTexture("UI\\Highlights\\ExitHighlightMirrored"), 0.01f);
 
 			strings[0] = game.LoadString("UI", "OptionsVideo");
 			strings[1] = game.LoadString("UI", "OptionsTextSpeed");

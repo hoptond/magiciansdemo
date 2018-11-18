@@ -30,15 +30,15 @@ namespace Magicians
 		int viewedMonth;
 
 		public Calendar(Game g) :
-		base(g.Input, g.TextureLoader.RequestTexture("UI\\World\\Calendar"), 0.18f, new Point((g.GetScreenWidth() / 2) - 300, g.GetScreenHeight() / 2 - 235), new Button(g, g.Input, g.TextureLoader.RequestTexture("UI\\Common\\BlankExitButton"), new Point((g.GetScreenWidth() / 2) - 300 + 532, g.GetScreenHeight() / 2 - 235 + 412), "", g.TextureLoader.RequestTexture("UI\\Highlights\\ExitHighlight"), 0.17f))
+        base(g.Input, g.TextureLoader.RequestTexture("UI\\World\\Calendar"), 0.18f, new Point((g.GetScreenWidth() / 2) - 300, g.GetScreenHeight() / 2 - 235), new Button(g.Audio, g.Input, g.TextureLoader.RequestTexture("UI\\Common\\BlankExitButton"), new Point((g.GetScreenWidth() / 2) - 300 + 532, g.GetScreenHeight() / 2 - 235 + 412), "", g.TextureLoader.RequestTexture("UI\\Highlights\\ExitHighlight"), 0.17f))
 		{
 			game = g;
 			tooltip = game.TextureLoader.RequestTexture("UI\\Common\\tooltipWindow");
 			MainQuestWarningIcon = game.TextureLoader.RequestTexture("UI\\World\\CalendarMQuestWarn");
 			SideQuestWarningIcon = game.TextureLoader.RequestTexture("UI\\World\\CalendarSQuestWarn");
 			dayRimShine = game.TextureLoader.RequestTexture("UI\\World\\CalendarActiveDay");
-			NextButton = new Button(g, g.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankExitButton"), new Point(TopLeft.X + 222, TopLeft.Y + 406), 40, 40, "", game.TextureLoader.RequestTexture("UI\\Highlights\\CurvedRightEdgeHighlight"), 0.16f);
-			PreviousButton = new Button(g, g.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankExitButton"), new Point(TopLeft.X + 31, TopLeft.Y + 406), 40, 40, "", game.TextureLoader.RequestTexture("UI\\Highlights\\SquareHighlight"), 0.16f);
+            NextButton = new Button(g.Audio, g.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankExitButton"), new Point(TopLeft.X + 222, TopLeft.Y + 406), 40, 40, "", game.TextureLoader.RequestTexture("UI\\Highlights\\CurvedRightEdgeHighlight"), 0.16f);
+            PreviousButton = new Button(g.Audio, g.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankExitButton"), new Point(TopLeft.X + 31, TopLeft.Y + 406), 40, 40, "", game.TextureLoader.RequestTexture("UI\\Highlights\\SquareHighlight"), 0.16f);
 			if (game.party.QuestStats.DayCounter > 15)
 				monthID = (game.party.QuestStats.DayCounter - 1) / 15;
 			else

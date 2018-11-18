@@ -22,7 +22,7 @@ namespace Magicians
 
 		public LearnSpellWindow(Game game)
 			: base(game.Input, game.TextureLoader.RequestTexture("UI\\World\\LearnSpellWindow"), 0.19f, new Point(game.GetScreenWidth() / 2 - 300, game.GetScreenHeight() / 2 - 235),
-			new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankExitButton"), new Point(game.GetScreenWidth() / 2 - 300 + 531, (game.GetScreenHeight() / 2 - 235 + 412)), "", game.TextureLoader.RequestTexture("UI\\Highlights\\ExitHighlight"), 0.18f))
+			new Button(game.Audio, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankExitButton"), new Point(game.GetScreenWidth() / 2 - 300 + 531, (game.GetScreenHeight() / 2 - 235 + 412)), "", game.TextureLoader.RequestTexture("UI\\Highlights\\ExitHighlight"), 0.18f))
 		{
 			this.game = game;
 			map = (Map)game.Scene;

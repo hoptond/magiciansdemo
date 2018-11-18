@@ -550,17 +550,17 @@ namespace Magicians
 			arcanas[4] = game.TextureLoader.RequestTexture("UI\\Common\\Arcana\\Water");
 			arcanas[5] = game.TextureLoader.RequestTexture("UI\\Common\\Arcana\\Wind");
 
-			NextButton = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankExitButton"), new Point(TopLeft.X + 631, TopLeft.Y + 532), 63, 52, "", game.TextureLoader.RequestTexture("UI\\Highlights\\ExitHighlight"), 0.028f);
-			BackButton = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankSquareButton"), new Point(TopLeft.X + 565, TopLeft.Y + 533), 61, 50, "", game.TextureLoader.RequestTexture("UI\\Highlights\\SquareHighlight"), 0.029f);
+			NextButton = new Button(game.Audio, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankExitButton"), new Point(TopLeft.X + 631, TopLeft.Y + 532), 63, 52, "", game.TextureLoader.RequestTexture("UI\\Highlights\\ExitHighlight"), 0.028f);
+			BackButton = new Button(game.Audio, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankSquareButton"), new Point(TopLeft.X + 565, TopLeft.Y + 533), 61, 50, "", game.TextureLoader.RequestTexture("UI\\Highlights\\SquareHighlight"), 0.029f);
 			AttributeButtons = new Button[6];
 			drawVector = new Point(game.GetScreenWidth() / 2 - 240, game.GetScreenHeight() / 2 - 230);
 			var recs = new Rectangle[6];
-			AttributeButtons[0] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankSquareButton"), new Point(drawVector.X + 164, drawVector.Y + 69), 52, 32, "", game.TextureLoader.RequestTexture("UI\\Highlights\\SquareHighlight"), 0.019f);
-			AttributeButtons[1] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankSquareButton"), new Point(drawVector.X + 164, drawVector.Y + 101), 52, 32, "", game.TextureLoader.RequestTexture("UI\\Highlights\\SquareHighlight"), 0.019f);
-			AttributeButtons[2] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankSquareButton"), new Point(drawVector.X + 164, drawVector.Y + 150), 52, 32, "", game.TextureLoader.RequestTexture("UI\\Highlights\\SquareHighlight"), 0.019f);
-			AttributeButtons[3] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankSquareButton"), new Point(drawVector.X + 164, drawVector.Y + 182), 52, 32, "", game.TextureLoader.RequestTexture("UI\\Highlights\\SquareHighlight"), 0.019f);
-			AttributeButtons[4] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankSquareButton"), new Point(drawVector.X + 164, drawVector.Y + 231), 52, 32, "", game.TextureLoader.RequestTexture("UI\\Highlights\\SquareHighlight"), 0.019f);
-			AttributeButtons[5] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankSquareButton"), new Point(drawVector.X + 164, drawVector.Y + 263), 52, 32, "", game.TextureLoader.RequestTexture("UI\\Highlights\\SquareHighlight"), 0.019f);
+			AttributeButtons[0] = new Button(game.Audio, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankSquareButton"), new Point(drawVector.X + 164, drawVector.Y + 69), 52, 32, "", game.TextureLoader.RequestTexture("UI\\Highlights\\SquareHighlight"), 0.019f);
+			AttributeButtons[1] = new Button(game.Audio, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankSquareButton"), new Point(drawVector.X + 164, drawVector.Y + 101), 52, 32, "", game.TextureLoader.RequestTexture("UI\\Highlights\\SquareHighlight"), 0.019f);
+			AttributeButtons[2] = new Button(game.Audio, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankSquareButton"), new Point(drawVector.X + 164, drawVector.Y + 150), 52, 32, "", game.TextureLoader.RequestTexture("UI\\Highlights\\SquareHighlight"), 0.019f);
+			AttributeButtons[3] = new Button(game.Audio, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankSquareButton"), new Point(drawVector.X + 164, drawVector.Y + 182), 52, 32, "", game.TextureLoader.RequestTexture("UI\\Highlights\\SquareHighlight"), 0.019f);
+			AttributeButtons[4] = new Button(game.Audio, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankSquareButton"), new Point(drawVector.X + 164, drawVector.Y + 231), 52, 32, "", game.TextureLoader.RequestTexture("UI\\Highlights\\SquareHighlight"), 0.019f);
+			AttributeButtons[5] = new Button(game.Audio, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankSquareButton"), new Point(drawVector.X + 164, drawVector.Y + 263), 52, 32, "", game.TextureLoader.RequestTexture("UI\\Highlights\\SquareHighlight"), 0.019f);
 			charAttributes.Add(Magicians.Attributes.Strength, 1);
 			charAttributes.Add(Magicians.Attributes.Magic, 1);
 			charAttributes.Add(Magicians.Attributes.Dexterity, 1);

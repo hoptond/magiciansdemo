@@ -69,7 +69,7 @@ namespace Magicians
 		}
 		public StatusWindow(Game game, PlayerCharacter pc)
 			: base(game.Input, game.TextureLoader.RequestTexture("UI\\World\\StatusScreen"), 0.2f, new Point((game.GetScreenWidth() / 2) - 245, game.GetScreenHeight() / 2 - 197),
-				new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankExitButton"), new Point(((game.GetScreenWidth() / 2) - 245) + 478, ((game.GetScreenHeight() / 2) - 197) + 233), "", game.TextureLoader.RequestTexture("UI\\Highlights\\ExitHighlight"), 0.029f))
+                   new Button(game.Audio, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankExitButton"), new Point(((game.GetScreenWidth() / 2) - 245) + 478, ((game.GetScreenHeight() / 2) - 197) + 233), "", game.TextureLoader.RequestTexture("UI\\Highlights\\ExitHighlight"), 0.029f))
 		{
 			sfont = game.smallFont;
 			playerParty = game.party;
@@ -179,7 +179,7 @@ namespace Magicians
 		}
 		public PartyWindow(Game game)
 			: base(game.Input, game.TextureLoader.RequestTexture("UI\\World\\PartyWindow"), 0.1f, new Point(game.GetScreenWidth() / 2 - 300, game.GetScreenHeight() / 2 - 235),
-				   new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankExitButton"), new Point(game.GetScreenWidth() / 2 - 300 + 532, game.GetScreenHeight() / 2 - 235 + 412), "", game.TextureLoader.RequestTexture("UI\\Highlights\\ExitHighlight"), 0.09f))
+                   new Button(game.Audio, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankExitButton"), new Point(game.GetScreenWidth() / 2 - 300 + 532, game.GetScreenHeight() / 2 - 235 + 412), "", game.TextureLoader.RequestTexture("UI\\Highlights\\ExitHighlight"), 0.09f))
 		{
 			party = game.party;
 			strings[0] = game.LoadString("UI", "PartyMenu1");

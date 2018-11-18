@@ -170,16 +170,16 @@ namespace Magicians
         public void SetButtons()
         {
             Buttons = new Button[8];
-            Buttons[0] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankUICircleButton"), new Point(93, 93), "", game.TextureLoader.RequestTexture("UI\\Highlights\\WorldUICircleHighlight"), 0.09f);
-            Buttons[1] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankUICircleButton"), new Point(134, 4), "", game.TextureLoader.RequestTexture("UI\\Highlights\\WorldUICircleHighlight"), 0.09f);
-            Buttons[2] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankUICircleButton"), new Point(4, 134), "", game.TextureLoader.RequestTexture("UI\\Highlights\\WorldUICircleHighlight"), 0.09f);
+            Buttons[0] = new Button(game.Audio, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankUICircleButton"), new Point(93, 93), "", game.TextureLoader.RequestTexture("UI\\Highlights\\WorldUICircleHighlight"), 0.09f);
+            Buttons[1] = new Button(game.Audio, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankUICircleButton"), new Point(134, 4), "", game.TextureLoader.RequestTexture("UI\\Highlights\\WorldUICircleHighlight"), 0.09f);
+            Buttons[2] = new Button(game.Audio, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankUICircleButton"), new Point(4, 134), "", game.TextureLoader.RequestTexture("UI\\Highlights\\WorldUICircleHighlight"), 0.09f);
             int drawX = game.GetScreenWidth() - 66;
             int drawY = 48;
-            Buttons[3] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankUICircleButton"), new Point(drawX, drawY + 16), "", game.TextureLoader.RequestTexture("UI\\Highlights\\WorldUICircleHighlight"), 0.09f);
-            Buttons[4] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankUICircleButton"), new Point(drawX, drawY + 110), "", game.TextureLoader.RequestTexture("UI\\Highlights\\WorldUICircleHighlight"), 0.09f);
-            Buttons[5] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankUICircleButton"), new Point(drawX, drawY + 202), "", game.TextureLoader.RequestTexture("UI\\Highlights\\WorldUICircleHighlight"), 0.09f);
-            Buttons[6] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankUICircleButton"), new Point(drawX, drawY + 294), "", game.TextureLoader.RequestTexture("UI\\Highlights\\WorldUICircleHighlight"), 0.09f);
-            Buttons[7] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankUICircleButton"), new Point(drawX, drawY + 386), "", game.TextureLoader.RequestTexture("UI\\Highlights\\WorldUICircleHighlight"), 0.09f);
+            Buttons[3] = new Button(game.Audio, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankUICircleButton"), new Point(drawX, drawY + 16), "", game.TextureLoader.RequestTexture("UI\\Highlights\\WorldUICircleHighlight"), 0.09f);
+            Buttons[4] = new Button(game.Audio, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankUICircleButton"), new Point(drawX, drawY + 110), "", game.TextureLoader.RequestTexture("UI\\Highlights\\WorldUICircleHighlight"), 0.09f);
+            Buttons[5] = new Button(game.Audio, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankUICircleButton"), new Point(drawX, drawY + 202), "", game.TextureLoader.RequestTexture("UI\\Highlights\\WorldUICircleHighlight"), 0.09f);
+            Buttons[6] = new Button(game.Audio, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankUICircleButton"), new Point(drawX, drawY + 294), "", game.TextureLoader.RequestTexture("UI\\Highlights\\WorldUICircleHighlight"), 0.09f);
+            Buttons[7] = new Button(game.Audio, game.Input, game.TextureLoader.RequestTexture("UI\\Common\\BlankUICircleButton"), new Point(drawX, drawY + 386), "", game.TextureLoader.RequestTexture("UI\\Highlights\\WorldUICircleHighlight"), 0.09f);
 
         }
     }

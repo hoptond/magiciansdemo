@@ -204,7 +204,7 @@ namespace Magicians
 		{
 			for (int i = 0; i < spells.Length; i++)
 			{
-				if (Input.HasMouseClickedOnRectangle(spells[i].Bounds))
+                if (spells[i].Activated())
 				{
 					if (pc.Spells[i].ManaCost(pc) <= pc.BattleStats.SP)
 					{
@@ -242,7 +242,7 @@ namespace Magicians
 		{
 			for (int i = 0; i < spells.Length; i++)
 			{
-				if (Input.HasMouseClickedOnRectangle(spells[i].Bounds))
+				if (spells[i].Activated())
 				{
 					if (pc.Spells[i].ManaCost(pc) <= pc.BattleStats.SP)
 					{
@@ -256,8 +256,8 @@ namespace Magicians
 		{
 			for (int i = 0; i < spells.Length; i++)
 			{
-				if (Input.HasMouseClickedOnRectangle(spells[i].Bounds))
-				{
+                if (spells[i].Activated())
+                {
 					return i;
 				}
 			}
@@ -275,7 +275,7 @@ namespace Magicians
 		}
 		public Spellbook(Game g, Texture2D tex, PlayerCharacter p, Usage[] u)
 			: base(g.Input, tex, 0.15f, new Point((g.GetScreenWidth() / 2) - 275, (g.GetScreenHeight() / 2) - 220),
-				   new Button(g, g.Input, g.TextureLoader.RequestTexture("UI\\Battle\\BlankSpellbookExit"), new Point(((g.GetScreenWidth() / 2) - 275) + 513, ((g.GetScreenHeight() / 2) - 220) + 408), "", g.TextureLoader.RequestTexture("UI\\Highlights\\SpellbookExitHighlight"), 0.06f))
+                   new Button(g.Audio, g.Input, g.TextureLoader.RequestTexture("UI\\Battle\\BlankSpellbookExit"), new Point(((g.GetScreenWidth() / 2) - 275) + 513, ((g.GetScreenHeight() / 2) - 220) + 408), "", g.TextureLoader.RequestTexture("UI\\Highlights\\SpellbookExitHighlight"), 0.06f))
 		{
 			game = g;
 			this.input = g.Input;
@@ -287,7 +287,7 @@ namespace Magicians
 			spells = new Button[pc.Spells.Count];
 			for (int i = 0; i < pc.Spells.Count; i++)
 			{
-				spells[i] = new Button(g, g.Input, pc.Spells[i].SpellIcon, new Point(x, y), "", g.TextureLoader.RequestTexture("UI\\Highlights\\SquareHighlight"), 0.14f);
+                spells[i] = new Button(g.Audio, g.Input, pc.Spells[i].SpellIcon, new Point(x, y), "", g.TextureLoader.RequestTexture("UI\\Highlights\\SquareHighlight"), 0.14f);
 				y += 88;
 				if (i >= 3)
 				{

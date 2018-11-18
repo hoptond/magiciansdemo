@@ -153,11 +153,11 @@ namespace Magicians
                 music = "null";
             if (battleGroup.encounterType == EncounterType.Boss)
             {
-                uiButtons[4] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Battle\\BattleNoFleeIcon"), new Point(576, 20), "", game.TextureLoader.RequestTexture("UI\\Highlights\\BattleHighlight"), 0.1f);
+                uiButtons[4] = new Button(game.Audio, game.Input, game.TextureLoader.RequestTexture("UI\\Battle\\BattleNoFleeIcon"), new Point(576, 20), "", game.TextureLoader.RequestTexture("UI\\Highlights\\BattleHighlight"), 0.1f);
             }
             else
             {
-                uiButtons[4] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Battle\\BattleFleeIcon"), new Point(576, 20), "", game.TextureLoader.RequestTexture("UI\\Highlights\\BattleHighlight"), 0.1f);
+                uiButtons[4] = new Button(game.Audio, game.Input, game.TextureLoader.RequestTexture("UI\\Battle\\BattleFleeIcon"), new Point(576, 20), "", game.TextureLoader.RequestTexture("UI\\Highlights\\BattleHighlight"), 0.1f);
             }
             Load(game.Content, game.TextureLoader);
 			ReturnMusic = game.ReturnMusic;
@@ -293,13 +293,13 @@ namespace Magicians
 		}
 		public void Load(ContentManager content, TextureLoader TextureLoader)
 		{
-            uiButtons[0] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Battle\\BattleSpellIcon"), new Point(16, 20), "", game.TextureLoader.RequestTexture("UI\\Highlights\\BattleHighlight"), 0.1f);
+            uiButtons[0] = new Button(game.Audio, game.Input, game.TextureLoader.RequestTexture("UI\\Battle\\BattleSpellIcon"), new Point(16, 20), "", game.TextureLoader.RequestTexture("UI\\Highlights\\BattleHighlight"), 0.1f);
             if (canUseItems)
-                uiButtons[1] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Battle\\BattleItemIcon"), new Point(156, 20), "", game.TextureLoader.RequestTexture("UI\\Highlights\\BattleHighlight"), 0.1f);
+                uiButtons[1] = new Button(game.Audio, game.Input, game.TextureLoader.RequestTexture("UI\\Battle\\BattleItemIcon"), new Point(156, 20), "", game.TextureLoader.RequestTexture("UI\\Highlights\\BattleHighlight"), 0.1f);
             else
-                uiButtons[1] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Battle\\BattleNoItemsIcon"), new Point(156, 20), "", game.TextureLoader.RequestTexture("UI\\Highlights\\BattleHighlight"), 0.1f);
-            uiButtons[2] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Battle\\BattleExamineIcon"), new Point(296, 20), "", game.TextureLoader.RequestTexture("UI\\Highlights\\BattleHighlight"), 0.1f);
-            uiButtons[3] = new Button(game, game.Input, game.TextureLoader.RequestTexture("UI\\Battle\\BattleWaitIcon"), new Point(436, 20), "", game.TextureLoader.RequestTexture("UI\\Highlights\\BattleHighlight"), 0.1f);
+                uiButtons[1] = new Button(game.Audio, game.Input, game.TextureLoader.RequestTexture("UI\\Battle\\BattleNoItemsIcon"), new Point(156, 20), "", game.TextureLoader.RequestTexture("UI\\Highlights\\BattleHighlight"), 0.1f);
+            uiButtons[2] = new Button(game.Audio, game.Input, game.TextureLoader.RequestTexture("UI\\Battle\\BattleExamineIcon"), new Point(296, 20), "", game.TextureLoader.RequestTexture("UI\\Highlights\\BattleHighlight"), 0.1f);
+            uiButtons[3] = new Button(game.Audio, game.Input, game.TextureLoader.RequestTexture("UI\\Battle\\BattleWaitIcon"), new Point(436, 20), "", game.TextureLoader.RequestTexture("UI\\Highlights\\BattleHighlight"), 0.1f);
             spellbookUI = game.TextureLoader.RequestTexture("UI\\Battle\\BattleSpellbook");
             inventoryUI = game.TextureLoader.RequestTexture("UI\\Battle\\BattleInventory");
             examineWindow = game.TextureLoader.RequestTexture("UI\\Battle\\BattleExamineWindow");
@@ -878,18 +878,18 @@ namespace Magicians
 			{
 				if (currentState != State.BattleResult)
 				{
-					if (playerCharacters[activePlayerIndex].Equips[0] == null)
-						spriteBatch.Draw(uiButtons[0].Icon, uiButtons[0].Bounds, Color.DarkGray);
-					else
-						uiButtons[0].Draw(spriteBatch);
-					for (int i = 1; i < 5; i++)
+                    if (playerCharacters[activePlayerIndex].Equips[0] == null)
+                        uiButtons[0].SetBaseColor(Color.DarkGray);
+                    else
+                        uiButtons[0].SetBaseColor(Color.White);
+                    if (!canFlee)
+                        uiButtons[4].SetBaseColor(Color.DarkGray);
+                    else
+                        uiButtons[4].SetBaseColor(Color.White);
+                    for (int i = 0; i < 5; i++)
 					{
 						uiButtons[i].Draw(spriteBatch);
 					}
-					if (!canFlee)
-						spriteBatch.Draw(uiButtons[4].Icon, uiButtons[4].Bounds, null, Color.DarkGray, 0, Vector2.Zero, SpriteEffects.None, 0.001f);
-					if (canFlee)
-						uiButtons[4].Draw(spriteBatch);
 				}
 				switch (uiState)
 				{

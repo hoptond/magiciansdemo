@@ -229,7 +229,7 @@ namespace Magicians
 			drawOffset.Y = MathHelper.Clamp(drawOffset.Y, 128, game.GetScreenWidth() - 600);
 			for (int i = 0; i < Buttons.Length; i++)
 			{
-				Buttons[i] = new Button(game, game.Input, button, new Point(drawOffset.X, drawOffset.Y), "", game.TextureLoader.RequestTexture("UI\\Highlights\\MainMenuHighlight"), 0.5f);
+                Buttons[i] = new Button(game.Audio, game.Input, button, new Point(drawOffset.X, drawOffset.Y), "", game.TextureLoader.RequestTexture("UI\\Highlights\\MainMenuHighlight"), 0.5f);
 				drawOffset.Y += 80;
 			}
 		}

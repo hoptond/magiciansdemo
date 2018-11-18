@@ -223,7 +223,7 @@ namespace Magicians
 		}
 		public Shop(Game g, string s, Item[] items, float b, float se)
 			: base(g.Input, g.TextureLoader.RequestTexture("UI\\Shop\\ShopWindow"), 0.2f, new Point((g.graphics.PreferredBackBufferWidth / 2) - 350, (g.graphics.PreferredBackBufferHeight / 2) - 300),
-				   new Button(g, g.Input, g.TextureLoader.RequestTexture("UI\\Common\\BlankExitButton"), new Point((g.graphics.PreferredBackBufferWidth / 2) - 350 + 632, (g.graphics.PreferredBackBufferHeight / 2) - 300 + 542), "", g.TextureLoader.RequestTexture("UI\\Highlights\\ExitHighlight"), 0.19f))
+				   new Button(g.Audio, g.Input, g.TextureLoader.RequestTexture("UI\\Common\\BlankExitButton"), new Point((g.graphics.PreferredBackBufferWidth / 2) - 350 + 632, (g.graphics.PreferredBackBufferHeight / 2) - 300 + 542), "", g.TextureLoader.RequestTexture("UI\\Highlights\\ExitHighlight"), 0.19f))
 		{
 			game = g;
 			Name = s;
@@ -265,7 +265,7 @@ namespace Magicians
 			for (int i = 0; i < CharacterButtons.Length; i++)
 			{
 				var chara = playerParty.GetPlayerCharacter(playerParty.ActiveCharacters[i]);
-				CharacterButtons[i] = new Button(g, g.Input, chara.uiPortrait, new Point(drawVector.X, drawVector.Y), 62, 62, "", g.TextureLoader.RequestTexture("UI\\Highlights\\SquareHighlight"), 0.19f);
+				CharacterButtons[i] = new Button(g.Audio, g.Input, chara.uiPortrait, new Point(drawVector.X, drawVector.Y), 62, 62, "", g.TextureLoader.RequestTexture("UI\\Highlights\\SquareHighlight"), 0.19f);
 				drawVector.X += 65;
 			}
 			activeCharacterHighlight = g.TextureLoader.RequestTexture("UI\\Shop\\ShopCharacterHighlight");
