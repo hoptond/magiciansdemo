@@ -1,14 +1,15 @@
-#ESSAY TITLE
+# ESSAY TITLE
+
 By Firstname Surname
 
 This is a paragraph beneath the header.
 
-###SECTION HEADING
+### SECTION HEADING
 
 This is a paragraph beneath the section.
 
 
-###SECTION HEADING
+### SECTION HEADING
 
 ![This is an image of questionable width](https://i.imgur.com/eAcewDm.jpg)
 
