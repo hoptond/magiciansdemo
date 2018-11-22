@@ -166,7 +166,7 @@ Eventually, I revisited pathfinding and implemented a version of A*. Had I stuck
 **4. No Best Practices**
 
 ![The horror!](https://i.postimg.cc/tgqkKkJm/singleton.png)
-<figcaption>Thankfully, this piece of code is no longer in the game.</figcaption>
+^(Thankfully, this piece of code is no longer in the game.)
 
 As almost all of my programming knowledge was self taught, I picked up a few bad habits. Most of these were typical newbie mistakes such as odd naming conventions, style violations and use of antipatterns. However, the things that hindered me the most were the habits I didn’t develop and the tools I didn’t learn. My younger self couldn’t see the value in anything that did not directly contribute to building the game, so I missed out on many useful skills and tools that would have saved me hours of effort.
 
