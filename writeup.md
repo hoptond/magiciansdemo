@@ -123,7 +123,7 @@ Aside from art, I had to implement hundreds of different items, equipment, spell
 
 Suffice it to say, just by picking the genre alone I had bitten off far more than I could chew. There is a reason, beyond simple nostalgia, that you see so many 2D platformers with pixel art being made by amateur game developers.
 
-![To make pretty effects, abuse anti-aliasing.](ghost fight)
+![image pending]
 
 **2. Overambition**
 
@@ -169,15 +169,15 @@ Eventually, I revisited pathfinding and implemented a version of A*. Had I stuck
 
 *(Thankfully, this piece of code is no longer in the game.)
 
-As almost all of my programming knowledge was self taught, I picked up a few bad habits. Most of these were typical newbie mistakes such as odd naming conventions, style violations and use of antipatterns. However, the things that hindered me the most were the habits I didn’t develop and the tools I didn’t learn. My younger self couldn’t see the value in anything that did not directly contribute to building the game, so I missed out on many useful skills and tools that would have saved me hours of effort.
+In the process of learning a language and building a game at the same time, I picked up a few bad habits. Most of these were newbie mistakes such as poor naming and style violations. However, the things that hindered me the most were the habits I didn’t develop and the tools I didn’t learn. My younger self couldn’t see the value in anything that did not directly contribute to building the game, so I missed out on many useful skills and tools that would have saved me hours of effort.
 
 Version control was the biggest tool I missed out on. Often, there would be times where I broke one system while rewriting another, and I had no functioning version to go back to as I had saved over it. To find an older version of something, I had to search through manual backups I made and see if the piece of content or code still existed in any previously saved versions.
 
-It would have also made testing deployment easier. My release method involved building the game, zipping it up, putting it on a file sharing service, and sending it out to the testers. There were a few issues with this approach. Firstly, I had to maintain entirely separate, standalone copies of the game in order to ensure they worked fresh from a new computer. Secondly, hotfixes had to be downloaded separately and copied into the directory where the user had placed the game. Thirdly, if I wanted a build where users to only be able to play up to a certain part, I would have had to remove the content from the game's directory manually. This was very tedious and wasted time that could have spent playing and recieving feedback on the game.
+It would have also made testing and deployment easier. My release method involved building the game, zipping it up, putting it on a file sharing service, and sending it out to the testers. There were a few issues with this approach. Firstly, I had to maintain entirely separate, standalone copies of the game in order to ensure they worked fresh from a new computer. Secondly, hotfixes had to be downloaded separately and copied into the directory where the user had placed the game. Thirdly, if I wanted a build where users to only be able to play up to a certain part, I would have had to remove the content from the game's directory manually. This was very tedious and wasted time that could have spent playing and recieving feedback on the game.
 
 Unit tests were another tool that could have saved me some time and effort. When searching for the cause of a particular bug, my most common method involved using Edit and Continue to see what was happening line by line. Often, these bugs were caused by code that didn’t do what the comments or naming said it did. An automated test might have caught the bug where you could name your character ‘ ’, which was technically valid but undesirable behaviour, among other similar issues.
 
-The final issue was that I started game development before I truly understood all of a language's features and standards. At the start of the project, I often picked the easiest or first solution I came up with for a given problem. An example of this was the dated, unweidly XML library I used to load my game's data. I put up with this library until I found and replaced it with the alternative XElement Linq library, which was much easier to read and write code for. Were I more willing to significantly overhaul legacy code, I might have replaced XML with JSON as the file format for my game's data.
+The final issue was that I began work on the game before I truly understood all of the language's features and standards. At the start of the project, I often picked the easiest or first solution I came up with for a given problem. An example of this was the dated, unweidly XML library I used to load my game's data. I put up with this library until I found and replaced it with the alternative XElement Linq library, which was much easier to read and write code for. If I had the time, I might have written a script to convert any existing XML files into JSON ones, so I was not basing much of my code around an oudated file format.
 
 **5. I Didn’t Finish**
 
