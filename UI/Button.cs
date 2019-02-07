@@ -22,12 +22,13 @@ namespace Magicians
         Color highlightColor = Color.White;
         bool drawHighlight;
 
-        public Button(Audio a, Input i, Texture2D ico, Point position, string text, Texture2D highlight, float d)
+        public Button(Audio audio, Input input, Texture2D ico, Point position, string text, Texture2D highlight, float d)
         {
-            Audio = a;
-            Input = i;
+            Audio = audio;
+            Input = input;
             Icon = ico;
             Position = position;
+            Bounds = new Rectangle(Position.X, Position.Y, ico.Width, ico.Height);
             Text = text;
             Highlight = highlight;
             Depth = d;
@@ -38,6 +39,7 @@ namespace Magicians
             Audio = a;
             Input = i;
             Icon = ico;
+            Position = position;
             Bounds = new Rectangle(Position.X, Position.Y, width, height);
             Text = text;
             Depth = d;
